@@ -32,3 +32,6 @@ def getNames ():
 
 def callRestore ():
 	changeDiscordIcon ("app")
+
+def callChange (name):
+	changeDiscordIcon (os.path.join ("Icons", name))
