@@ -29,3 +29,6 @@ def getNames ():
 		if os.path.isfile (name) and os.path.splitext (i) [1] == ".ico":
 			names.append (os.path.splitext (i) [0])
 	return names
+
+def callRestore ():
+	changeDiscordIcon ("app")
