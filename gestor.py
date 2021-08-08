@@ -1,5 +1,6 @@
 import os
 import subprocess
+import shutil
 
 def changeEXEicon (originalPath, resultPath, iconPath):
 	subprocess.run (["ResourceHacker/ResourceHacker.exe", "-open", originalPath, "-save", resultPath, "-action", "addskip", "-res", iconPath, "-mask", "ICONGROUP,MAINICON,"], capture_output = True)
@@ -14,3 +15,7 @@ def changeDiscordIcon (iconName):
 	ico1 = os.path.join (discord, "app.ico")
 	ico2 = os.path.join (discordApp, "app.ico")
 	exe = os.path.join (discordApp, "Discord.exe")
+
+	shutil.copy (iconName + ".ico", ico1)
+	shutil.copy (iconName + ".ico", ico2)
+	changeEXEicon (exe, exe, iconName + ".ico")
