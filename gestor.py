@@ -21,3 +21,11 @@ def changeDiscordIcon (iconName):
 	changeEXEicon (exe, exe, iconName + ".ico")
 
 	os.remove ("tool.ini")
+
+def getNames ():
+	names = []
+	for i in os.listdir ("Icons"):
+		name = os.path.join ("Icons", i)
+		if os.path.isfile (name) and os.path.splitext (i) [1] == ".ico":
+			names.append (os.path.splitext (i) [0])
+	return names
