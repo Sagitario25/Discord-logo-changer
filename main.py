@@ -1,3 +1,4 @@
 import gestor
+import command
 
-gestor.changeDiscordIcon ("toChange")
+com = command.Interpreter ()
