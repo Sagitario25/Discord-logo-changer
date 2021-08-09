@@ -9,19 +9,11 @@ def changeDiscordIcon (iconName, bypass = False):
 	if (not iconName.split ('\\') [-1] in getNames()) and (not bypass):
 		raise FileNotFoundError ("Provided icon name does not exist")
 
-	discord = os.path.join (os.getenv ("localappdata"), "Discord")
-	for i in os.listdir (discord):
-		name = os.path.join (discord, i)
-		if i [:3] == "app" and os.path.isdir (name):
-			discordApp = name
+	paths = getPaths ()
 
-	ico1 = os.path.join (discord, "app.ico")
-	ico2 = os.path.join (discordApp, "app.ico")
-	exe = os.path.join (discordApp, "Discord.exe")
-
-	shutil.copy (iconName + ".ico", ico1)
-	shutil.copy (iconName + ".ico", ico2)
-	changeEXEicon (exe, exe, iconName + ".ico")
+	shutil.copy (iconName + ".ico", paths ["ico1"])
+	shutil.copy (iconName + ".ico", paths ["ico2"])
+	changeEXEicon (paths ["exe"], paths ["exe"], iconName + ".ico")
 
 	os.remove ("tool.ini")
 
@@ -38,3 +30,18 @@ def callRestore ():
 
 def callChange (name):
 	changeDiscordIcon (os.path.join ("Icons", name))
+
+def getPaths ():
+	paths = {}
+	paths ["discord"] = os.path.join (os.getenv ("localappdata"), "Discord")
+
+	for i in os.listdir (paths ["discord"]):
+		name = os.path.join (paths ["discord"], i)
+		if i [:3] == "app" and os.path.isdir (name):
+			paths ["discordApp"] = name
+	
+	paths ["ico1"] = os.path.join (paths ["discord"], "app.ico")
+	paths ["ico2"] = os.path.join (paths ["discordApp"], "app.ico")
+	paths ["exe"] = os.path.join (paths ["discordApp"], "Discord.exe")
+
+	return paths
