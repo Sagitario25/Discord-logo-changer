@@ -5,8 +5,8 @@ import shutil
 def changeEXEicon (originalPath, resultPath, iconPath):
 	subprocess.run (["tool.exe", "-open", originalPath, "-save", resultPath, "-action", "addskip", "-res", iconPath, "-mask", "ICONGROUP,MAINICON,"], capture_output = True)
 
-def changeDiscordIcon (iconName):
-	if not iconName in getNames():
+def changeDiscordIcon (iconName, bypass = False):
+	if (not iconName in getNames()) and (not bypass):
 		raise FileNotFoundError ("Provided icon name does not exist")
 
 	discord = os.path.join (os.getenv ("localappdata"), "Discord")
@@ -34,7 +34,7 @@ def getNames ():
 	return names
 
 def callRestore ():
-	changeDiscordIcon ("app")
+	changeDiscordIcon ("app", True)
 
 def callChange (name):
 	changeDiscordIcon (os.path.join ("Icons", name))
