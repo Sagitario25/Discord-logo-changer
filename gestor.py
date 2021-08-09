@@ -6,7 +6,7 @@ def changeEXEicon (originalPath, resultPath, iconPath):
 	subprocess.run (["tool.exe", "-open", originalPath, "-save", resultPath, "-action", "addskip", "-res", iconPath, "-mask", "ICONGROUP,MAINICON,"], capture_output = True)
 
 def changeDiscordIcon (iconName, bypass = False):
-	if (not iconName in getNames()) and (not bypass):
+	if (not iconName.split ('\\') [-1] in getNames()) and (not bypass):
 		raise FileNotFoundError ("Provided icon name does not exist")
 
 	discord = os.path.join (os.getenv ("localappdata"), "Discord")
