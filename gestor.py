@@ -26,7 +26,18 @@ def getNames ():
 	return names
 
 def callRestore ():
-	changeDiscordIcon ("app", True)
+	paths = getPaths ()
+
+	taskkill ()
+
+	os.remove (paths ["ico1"])
+	os.remove (paths ["ico2"])
+	os.remove (paths ["exe"])
+
+	shutil.copy (os.path.join ("Backup", "app.ico"), paths ["ico1"])
+	shutil.copy (os.path.join ("Backup", "app.ico"), paths ["ico2"])
+	shutil.copy (os.path.join ("Backup", "Discord.exe"), paths ["exe"])
+
 
 def callChange (name):
 	changeDiscordIcon (os.path.join ("Icons", name))
@@ -45,3 +56,6 @@ def getPaths ():
 	paths ["exe"] = os.path.join (paths ["discordApp"], "Discord.exe")
 
 	return paths
+
+def taskkill (name = "discord.exe"):
+	os.system ("taskkill -f -im discord.exe")
