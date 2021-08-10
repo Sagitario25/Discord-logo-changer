@@ -5,6 +5,12 @@ import shutil
 
 paths = gestor.getPaths ()
 
+if not os.path.exists ("Backup"):
+	os.mkdir ("Backup")
+
+if not os.path.exists ("Icons"):
+	os.mkdir ("Icons")
+
 if not os.path.exists (os.path.join ("backup", "app.ico")):
 	shutil.copy (paths ["ico1"], os.path.join ("backup", "app.ico"))
 	print ("Backed up discord icon")
