@@ -46,6 +46,9 @@ def getPaths ():
 	paths = {}
 	paths ["discord"] = os.path.join (os.getenv ("localappdata"), "Discord")
 
+	while not os.path.exists (paths ["discord"]):
+		input ("Discord not installed, install to procced")
+
 	for i in os.listdir (paths ["discord"]):
 		name = os.path.join (paths ["discord"], i)
 		if i [:3] == "app" and os.path.isdir (name):
@@ -54,6 +57,9 @@ def getPaths ():
 	paths ["ico1"] = os.path.join (paths ["discord"], "app.ico")
 	paths ["ico2"] = os.path.join (paths ["discordApp"], "app.ico")
 	paths ["exe"] = os.path.join (paths ["discordApp"], "Discord.exe")
+
+	while not (os.path.exists (paths ["ico1"]) and os.path.exists (paths ["ico2"]) and os.path.exists (paths ["discordApp"])):
+		input (f"Some files are missing in discord folder ({paths ['discord']}), fix them or reinstall discord.")
 
 	return paths
 
