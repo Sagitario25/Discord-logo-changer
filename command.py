@@ -1,9 +1,11 @@
 class Interpreter:
 	def __init__ (self):
 		self.commands = {}
+		self.help = {}
 		#Predefined commands
-		self.addCommand ("listCommands", self.listCommands)
-		
+		self.addCommand ("listCommands", self.listCommands, "Returns all the commands available at the moment")
+		self.addCommand ("help", self.printHelp, "Displays the help message for the command specified")
+
 	def call (self, raw_command):
 		if type (raw_command) != type (""): raise TypeError ("Input has to be a string")#Only string inputs
 		self.raw = delSpaces (raw_command)#Interiorize the command
@@ -40,11 +42,25 @@ class Interpreter:
 			print (inst)
 			print ("Usually this is caused because you didnt import that command")
 
-	def addCommand (self, name, function):
+	def addCommand (self, name, function, help = "There isn't a help message for this command"):
 		self.commands [name] = function#Add comand to the list
+		self.help [name] = help
+
+	def addHelp (self, name, message):
+		self.help [name] = message
 
 	def listCommands (self):
 		return [(i, self.commands [i]) for i in self.commands]
+	
+	def printHelp (self, name = ""):
+		if name == "":
+			name = "help"
+		try:
+			self.help [name]
+			print (f"Help for {name}:")
+			print (self.help [name])
+		except:
+			raise NameError (f'Command "{name}" not recognised')
 
 
 def getArg (string):
