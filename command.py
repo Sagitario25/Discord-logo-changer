@@ -4,7 +4,7 @@ class Interpreter:
 		self.help = {}
 		#Predefined commands
 		self.addCommand ("listCommands", self.listCommands, "Returns all the commands available at the moment")
-		self.addCommand ("help", self.printHelp, "Displays the help message for the command specified")
+		self.addCommand ("help", self.printHelp, "Displays the help message for the specified command")
 
 	def call (self, raw_command):
 		if type (raw_command) != type (""): raise TypeError ("Input has to be a string")#Only string inputs
@@ -50,7 +50,7 @@ class Interpreter:
 		self.help [name] = message
 
 	def listCommands (self):
-		return [(i, self.commands [i]) for i in self.commands]
+		return [i for i in self.commands]
 	
 	def printHelp (self, name = ""):
 		if name == "":

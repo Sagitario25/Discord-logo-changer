@@ -41,6 +41,8 @@ def callRestore ():
 
 def callChange (name):
 	changeDiscordIcon (os.path.join ("Icons", name))
+	print (f"Logo changed to {name}")
+	print ("To apply the changes, please restart your computer")
 
 def getPaths ():
 	paths = {}
