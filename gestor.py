@@ -1,9 +1,15 @@
 import os
 import subprocess
 import shutil
+import subprocess
+import sys
 
 def changeEXEicon (originalPath, resultPath, iconPath):
+	taskkill ()
+	#os.system (f"tool.exe -open \"{originalPath}\" -save \"{resultPath}\" -action addskip -res \"{iconPath}\" -mask ICONGROUP,MAINICON,")
 	subprocess.run (["tool.exe", "-open", originalPath, "-save", resultPath, "-action", "addskip", "-res", iconPath, "-mask", "ICONGROUP,MAINICON,"], capture_output = True)
+	if os.path.splitext (sys.argv [0])[1] == ".exe":
+		input ()
 
 def changeDiscordIcon (iconName, bypass = False):
 	if (not iconName.split ('\\') [-1] in getNames()) and (not bypass):
@@ -66,4 +72,5 @@ def getPaths ():
 	return paths
 
 def taskkill (name = "discord.exe"):
-	os.system ("taskkill -f -im discord.exe")
+	#os.system ("taskkill -f -im discord.exe")
+	subprocess.run (["taskkill", "-f", "-im", name], capture_output = True)

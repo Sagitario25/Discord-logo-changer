@@ -29,5 +29,8 @@ print ('Type "listCommands" to see a list of all available commands')
 print ('Type "help" before any command to get help')
 
 while True:
-	com.call (input ("--- "))
-	print ()
+	try:
+		com.call (input ("--- "))
+		print ()
+	except Exception as e:
+		print (e)
