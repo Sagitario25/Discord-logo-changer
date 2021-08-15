@@ -19,7 +19,11 @@ def changeDiscordIcon (iconName, bypass = False):
 
 	shutil.copy (iconName + ".ico", paths ["ico1"])
 	shutil.copy (iconName + ".ico", paths ["ico2"])
-	changeEXEicon (paths ["exe"], paths ["exe"], iconName + ".ico")
+
+	while not os.path.exists (paths ["exe"] + ".new"):
+		changeEXEicon (paths ["exe"], paths ["exe"] + ".new", iconName + ".ico")
+	os.remove (paths ["exe"])
+	os.rename (paths ["exe"] + ".new", paths ["exe"])
 
 	os.remove ("tool.ini")
 
