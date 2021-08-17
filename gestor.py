@@ -3,6 +3,7 @@ import subprocess
 import shutil
 import subprocess
 import sys
+from packaging import version
 
 def changeEXEicon (originalPath, resultPath, iconPath):
 	taskkill ()
@@ -63,8 +64,15 @@ def getPaths ():
 
 	for i in os.listdir (paths ["discord"]):
 		name = os.path.join (paths ["discord"], i)
+		newestVer = version.parse ("0.0.0")
 		if i [:3] == "app" and os.path.isdir (name):
-			paths ["discordApp"] = name
+			try:
+				ver = version.parse (os.path.basename (name) [4:])
+				if ver > newestVer:
+					newestVer = ver
+				paths ["discordApp"] = name
+			except:
+				pass
 	
 	paths ["ico1"] = os.path.join (paths ["discord"], "app.ico")
 	paths ["ico2"] = os.path.join (paths ["discordApp"], "app.ico")
