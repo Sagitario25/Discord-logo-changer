@@ -13,9 +13,10 @@ def mainMenu ():
 	canvas = tkinter.Canvas (window)
 
 	conts = [
-		{"type" : "Label", "text" : "Test text"},
-		{"type" : "Button", "text" : "Print \"a\"", "command" : lambda: print ("a")},
-		{"type" : "Button", "text" : "Clear", "command" : canvas.destroy}
+		{"type" : "Button", "text" : "Change Logo", "command" : canvas.destroy},
+		{"type" : "Button", "text" : "Restore default", "command" : canvas.destroy},
+		{"type" : "Button", "text" : "Convert images to icons", "command" : canvas.destroy},
+		{"type" : "Button", "text" : "Help", "command" : canvas.destroy}
 	]
 	constructCanvas(canvas, conts)
 
