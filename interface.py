@@ -2,6 +2,7 @@ import tkinter
 
 def newWindow ():
 	window = tkinter.Tk ()
+	window.minsize (200, 0)
 	return window
 
 def constructCanvas (canvas, contents):
