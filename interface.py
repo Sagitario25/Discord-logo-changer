@@ -1,4 +1,5 @@
 import tkinter
+import gestor
 
 def newWindow ():
 	window = tkinter.Tk ()
@@ -12,7 +13,9 @@ def constructCanvas (canvas, contents):
 		elif i ["type"] == "Button":
 			tkinter.Button (canvas, text = i ["text"], command = i ["command"]).pack (fill = tkinter.BOTH, expand = True)
 
-def mainMenu ():
+def mainMenu (lastWindow = None):
+	if lastWindow != None:
+		lastWindow.destroy ()
 	window = newWindow ()
 
 	conts = [
@@ -32,4 +35,11 @@ def chooseIcon (lastWindow):
 	conts = [
 		{"type" : "Label", "text" : "Choose your icon"}
 	]
+	for i in gestor.getNames ():
+		conts.append ({"type" : "Button", "text" : i, "command" : None})
+	conts.append ({"type" : "Label", "text" : ""})
+	conts.append ({"type" : "Button", "text" : "Back to main menu", "command" : lambda: mainMenu (window)})
+
 	constructCanvas (window, conts)
+
+	window.mainloop ()
