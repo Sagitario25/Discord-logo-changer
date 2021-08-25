@@ -7,12 +7,16 @@ def newWindow ():
 	window.minsize (200, 0)
 	return window
 
-def constructCanvas (canvas, contents):
+def constructCanvas (canvas, contents, side = tkinter.TOP):
 	for i in contents:
 		if   i ["type"] == "Label":
-			tkinter.Label (canvas, text = i["text"]).pack (fill = tkinter.BOTH, expand = True)
+			tkinter.Label (canvas, text = i["text"]).pack (fill = tkinter.BOTH, expand = True, side = side)
 		elif i ["type"] == "Button":
-			tkinter.Button (canvas, text = i ["text"], command = i ["command"]).pack (fill = tkinter.BOTH, expand = True)
+			tkinter.Button (canvas, text = i ["text"], command = i ["command"]).pack (fill = tkinter.BOTH, expand = True, side = side)
+		elif i ["type"] == "Canvas":
+			newCanvas = tkinter.Canvas (canvas)
+			constructCanvas (newCanvas, i ["contents"], side = tkinter.LEFT)
+			newCanvas.pack (fill = tkinter.BOTH, expand = True)
 
 def mainMenu (lastWindow = None):
 	if lastWindow != None:
