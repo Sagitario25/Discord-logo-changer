@@ -1,5 +1,6 @@
 import tkinter
 import gestor
+import functools
 
 def newWindow ():
 	window = tkinter.Tk ()
@@ -36,10 +37,14 @@ def chooseIcon (lastWindow):
 		{"type" : "Label", "text" : "Choose your icon"}
 	]
 	for i in gestor.getNames ():
-		conts.append ({"type" : "Button", "text" : i, "command" : None})
+		conts.append ({"type" : "Button", "text" : i, "command" : functools.partial (changeIcon, i)})
 	conts.append ({"type" : "Label", "text" : ""})
 	conts.append ({"type" : "Button", "text" : "Back to main menu", "command" : lambda: mainMenu (window)})
 
 	constructCanvas (window, conts)
 
 	window.mainloop ()
+
+def changeIcon (name):
+	pass
+	#gestor.callChange (name)
