@@ -1,6 +1,8 @@
 import tkinter
 import gestor
 import functools
+import os
+import subprocess
 
 def newWindow ():
 	window = tkinter.Tk ()
@@ -41,7 +43,10 @@ def chooseIcon (lastWindow):
 		{"type" : "Label", "text" : "Choose your icon"}
 	]
 	for i in gestor.getNames ():
-		conts.append ({"type" : "Button", "text" : i, "command" : functools.partial (changeIcon, i)})
+		conts.append ({"type" : "Canvas", "contents" : [
+			{"type" : "Button", "text" : i, "command" : functools.partial (changeIcon, i)},
+			{"type" : "Button", "text" : "Preview", "command" : functools.partial (subprocess.run, [os.path.join (os.getenv ("windir"), "System32", "mspaint.exe"), os.path.join ("Icons", i + ".ico")])}
+			]})
 	conts.append ({"type" : "Label", "text" : ""})
 	conts.append ({"type" : "Button", "text" : "Back to main menu", "command" : lambda: mainMenu (window)})
 
