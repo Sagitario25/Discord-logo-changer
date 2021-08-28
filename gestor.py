@@ -9,22 +9,22 @@ def changeEXEicon (originalPath, resultPath, iconPath):
 	taskkill ()
 	#os.system (f"tool.exe -open \"{originalPath}\" -save \"{resultPath}\" -action addskip -res \"{iconPath}\" -mask ICONGROUP,MAINICON,")
 	subprocess.run (["tool.exe", "-open", originalPath, "-save", resultPath, "-action", "addskip", "-res", iconPath, "-mask", "ICONGROUP,MAINICON,"], capture_output = True)
-	if os.path.splitext (sys.argv [0])[1] == ".exe":
+	if os.path.splitext (sys.argv[0])[1] == ".exe":
 		input ()
 
 def changeDiscordIcon (iconName, bypass = False):
-	if (not iconName.split ('\\') [-1] in getNames()) and (not bypass):
+	if (not iconName.split ('\\')[-1] in getNames()) and (not bypass):
 		raise FileNotFoundError ("Provided icon name does not exist")
 
 	paths = getPaths ()
 
-	shutil.copy (iconName + ".ico", paths ["ico1"])
-	shutil.copy (iconName + ".ico", paths ["ico2"])
+	shutil.copy (iconName + ".ico", paths["ico1"])
+	shutil.copy (iconName + ".ico", paths["ico2"])
 
-	while not os.path.exists (paths ["exe"] + ".new"):
-		changeEXEicon (paths ["exe"], paths ["exe"] + ".new", iconName + ".ico")
-	os.remove (paths ["exe"])
-	os.rename (paths ["exe"] + ".new", paths ["exe"])
+	while not os.path.exists (paths["exe"] + ".new"):
+		changeEXEicon (paths["exe"], paths["exe"] + ".new", iconName + ".ico")
+	os.remove (paths["exe"])
+	os.rename (paths["exe"] + ".new", paths["exe"])
 
 	os.remove ("tool.ini")
 
@@ -32,8 +32,8 @@ def getNames ():
 	names = []
 	for i in os.listdir ("Icons"):
 		name = os.path.join ("Icons", i)
-		if os.path.isfile (name) and os.path.splitext (i) [1] == ".ico":
-			names.append (os.path.splitext (i) [0])
+		if os.path.isfile (name) and os.path.splitext (i)[1] == ".ico":
+			names.append (os.path.splitext (i)[0])
 	return names
 
 def callRestore ():
@@ -41,13 +41,13 @@ def callRestore ():
 
 	taskkill ()
 
-	os.remove (paths ["ico1"])
-	os.remove (paths ["ico2"])
-	os.remove (paths ["exe"])
+	os.remove (paths["ico1"])
+	os.remove (paths["ico2"])
+	os.remove (paths["exe"])
 
-	shutil.copy (os.path.join ("Backup", "app.ico"), paths ["ico1"])
-	shutil.copy (os.path.join ("Backup", "app.ico"), paths ["ico2"])
-	shutil.copy (os.path.join ("Backup", "Discord.exe"), paths ["exe"])
+	shutil.copy (os.path.join ("Backup", "app.ico"), paths["ico1"])
+	shutil.copy (os.path.join ("Backup", "app.ico"), paths["ico2"])
+	shutil.copy (os.path.join ("Backup", "Discord.exe"), paths["exe"])
 
 
 def callChange (name):
@@ -57,29 +57,29 @@ def callChange (name):
 
 def getPaths ():
 	paths = {}
-	paths ["discord"] = os.path.join (os.getenv ("localappdata"), "Discord")
+	paths["discord"] = os.path.join (os.getenv ("localappdata"), "Discord")
 
 	while not os.path.exists (paths ["discord"]):
 		input ("Discord not installed, install to procced")
 
-	for i in os.listdir (paths ["discord"]):
-		name = os.path.join (paths ["discord"], i)
+	for i in os.listdir (paths["discord"]):
+		name = os.path.join (paths["discord"], i)
 		newestVer = version.parse ("0.0.0")
-		if i [:3] == "app" and os.path.isdir (name):
+		if i[:3] == "app" and os.path.isdir (name):
 			try:
-				ver = version.parse (os.path.basename (name) [4:])
+				ver = version.parse (os.path.basename (name)[4:])
 				if ver > newestVer:
 					newestVer = ver
-				paths ["discordApp"] = name
+				paths["discordApp"] = name
 			except:
 				pass
 	
-	paths ["ico1"] = os.path.join (paths ["discord"], "app.ico")
-	paths ["ico2"] = os.path.join (paths ["discordApp"], "app.ico")
-	paths ["exe"] = os.path.join (paths ["discordApp"], "Discord.exe")
+	paths["ico1"] = os.path.join (paths["discord"], "app.ico")
+	paths["ico2"] = os.path.join (paths["discordApp"], "app.ico")
+	paths["exe"] = os.path.join (paths["discordApp"], "Discord.exe")
 
-	while not (os.path.exists (paths ["ico1"]) and os.path.exists (paths ["ico2"]) and os.path.exists (paths ["discordApp"])):
-		input (f"Some files are missing in discord folder ({paths ['discord']}), fix them or reinstall discord.")
+	while not (os.path.exists (paths["ico1"]) and os.path.exists (paths["ico2"]) and os.path.exists (paths["discordApp"])):
+		input (f"Some files are missing in discord folder ({paths['discord']}), fix them or reinstall discord.")
 
 	return paths
 

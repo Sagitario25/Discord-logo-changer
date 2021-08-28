@@ -39,7 +39,7 @@ def commandline ():
 			print (e)
 
 if len (sys.argv) > 1:
-	if sys.argv [1] == "terminal":
+	if sys.argv[1] == "terminal":
 		commandline ()
 
 interface.mainMenu ()

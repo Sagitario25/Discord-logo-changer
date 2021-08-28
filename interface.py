@@ -12,24 +12,24 @@ def newWindow ():
 def constructCanvas (canvas, contents):
 	contents = defaultContents (contents)
 	for i in contents:
-		if   i ["type"] == "Label":
-			tkinter.Label (canvas, text = i["text"]).pack (fill = i ["fill"], expand = i ["expand"], side = i ["side"])
-		elif i ["type"] == "Button":
-			tkinter.Button (canvas, text = i ["text"], command = i ["command"]).pack (fill = i ["fill"], expand = i ["expand"], side = i ["side"])
-		elif i ["type"] == "Canvas":
+		if   i["type"] == "Label":
+			tkinter.Label (canvas, text = i["text"]).pack (fill = i["fill"], expand = i["expand"], side = i["side"])
+		elif i["type"] == "Button":
+			tkinter.Button (canvas, text = i["text"], command = i["command"]).pack (fill = i["fill"], expand = i["expand"], side = i["side"])
+		elif i["type"] == "Canvas":
 			newCanvas = tkinter.Canvas (canvas)
-			constructCanvas (newCanvas, i ["contents"])
+			constructCanvas (newCanvas, i["contents"])
 			newCanvas.pack (fill = tkinter.BOTH, expand = True)
 
 def defaultContents (conts):
 	for i in conts:
 		keys = [j for j in i]
 		if not "fill" in keys:
-			i ["fill"] = tkinter.BOTH
+			i["fill"] = tkinter.BOTH
 		if not "expand" in keys:
-			i ["expand"] = True
+			i["expand"] = True
 		if not "side" in keys:
-			i ["side"] = tkinter.TOP
+			i["side"] = tkinter.TOP
 
 	return conts
 
