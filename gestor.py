@@ -21,8 +21,12 @@ def changeDiscordIcon (iconName, bypass = False):
 	shutil.copy (iconName + ".ico", paths["ico1"])
 	shutil.copy (iconName + ".ico", paths["ico2"])
 
+	counter = 0
 	while not os.path.exists (paths["exe"] + ".new"):
 		changeEXEicon (paths["exe"], paths["exe"] + ".new", iconName + ".ico")
+		if counter > 4:
+			raise Exception ("Adding icon failed")
+		counter += 1
 	os.remove (paths["exe"])
 	os.rename (paths["exe"] + ".new", paths["exe"])
 
