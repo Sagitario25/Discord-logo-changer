@@ -1,4 +1,5 @@
 import tkinter
+import tkinter.messagebox
 import gestor
 import functools
 import os
@@ -68,5 +69,8 @@ def chooseIcon (lastWindow):
 	window.mainloop ()
 
 def changeIcon (name):
-	pass
-	#gestor.callChange (name)
+	confirm = tkinter.messagebox.askokcancel (title = "Confirm logo change", message = f"Discord icon is going to be change to \"{name}\", are you sure?\nTo preview use previous menu.")
+	if confirm:
+		gestor.callChange (name)
+	else:
+		tkinter.messagebox.showinfo (title = "Action cancelled", message = "The change was cancelled, going back to menu.")
