@@ -64,7 +64,7 @@ def getPaths ():
 	paths["discord"] = os.path.join (os.getenv ("localappdata"), "Discord")
 
 	while not os.path.exists (paths ["discord"]):
-		input ("Discord not installed, install to procced")
+		raise Exception ("Discord not installed, install to procced")
 
 	for i in os.listdir (paths["discord"]):
 		name = os.path.join (paths["discord"], i)
@@ -78,12 +78,16 @@ def getPaths ():
 			except:
 				pass
 	
+	if not "discordApp" in [i for i in paths]:
+		shutil.rmtree (paths["discord"])
+		return getPaths ()
+	
 	paths["ico1"] = os.path.join (paths["discord"], "app.ico")
 	paths["ico2"] = os.path.join (paths["discordApp"], "app.ico")
 	paths["exe"] = os.path.join (paths["discordApp"], "Discord.exe")
 
 	while not (os.path.exists (paths["ico1"]) and os.path.exists (paths["ico2"]) and os.path.exists (paths["discordApp"])):
-		input (f"Some files are missing in discord folder ({paths['discord']}), fix them or reinstall discord.")
+		raise FileNotFoundError (f"Some files are missing in discord folder ({paths['discord']}), fix them or reinstall discord.")
 
 	return paths
 
