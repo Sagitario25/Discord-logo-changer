@@ -5,8 +5,8 @@ import functools
 import os
 import subprocess
 
-def newWindow ():
-	window = tkinter.Tk ()
+def newWindow (window):
+	resetWindow (window)
 	window.minsize (200, 0)
 	return window
 
@@ -38,10 +38,8 @@ def defaultContents (conts):
 
 	return conts
 
-def mainMenu (lastWindow = None):
-	if lastWindow != None:
-		lastWindow.destroy ()
-	window = newWindow ()
+def mainMenu (lastWindow = tkinter.Tk ()):
+	window = newWindow (lastWindow)
 
 	conts = [
 		{"type" : "Button", "text" : "Change Logo", "command" : lambda: chooseIcon (window)},
@@ -54,8 +52,7 @@ def mainMenu (lastWindow = None):
 	window.mainloop ()
 
 def chooseIcon (lastWindow):
-	lastWindow.destroy ()
-	window = newWindow()
+	window = newWindow(lastWindow)
 
 	conts = [
 		{"type" : "Label", "text" : "Choose your icon"}
