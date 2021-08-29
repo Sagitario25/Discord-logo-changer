@@ -10,6 +10,10 @@ def newWindow ():
 	window.minsize (200, 0)
 	return window
 
+def resetWindow (window):
+	for i in window.winfo_children ():
+		i.destroy ()
+
 def constructCanvas (canvas, contents):
 	contents = defaultContents (contents)
 	for i in contents:
@@ -42,7 +46,7 @@ def mainMenu (lastWindow = None):
 	conts = [
 		{"type" : "Button", "text" : "Change Logo", "command" : lambda: chooseIcon (window)},
 		{"type" : "Button", "text" : "Restore default", "command" : window.destroy},
-		{"type" : "Button", "text" : "Convert images to icons", "command" : lambda: resetCanvas (canvas)},
+		{"type" : "Button", "text" : "Convert images to icons", "command" : lambda: resetWindow (window)},
 		{"type" : "Button", "text" : "Help", "command" : window.destroy}
 	]
 	constructCanvas (window, conts)
