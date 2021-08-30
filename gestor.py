@@ -1,3 +1,4 @@
+from genericpath import exists
 import os
 import subprocess
 import shutil
@@ -90,6 +91,17 @@ def getPaths ():
 		raise FileNotFoundError (f"Some files are missing in discord folder ({paths['discord']}), fix them or reinstall discord.")
 
 	return paths
+
+def discordInstalled ():
+	discordPath = os.path.join (os.getenv ("localappdata"), "Discord")
+	if not os.path.exists (discordPath):
+		return False
+	for i in os.listdir (discordPath):
+		name = os.path.join (discordPath, i)
+		discordDir = False
+		if i[:3] == "app" and os.path.isdir (name):
+			return True
+	return False
 
 def taskkill (name = "discord.exe"):
 	#os.system ("taskkill -f -im discord.exe")
