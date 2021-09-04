@@ -41,9 +41,6 @@ def defaultContents (conts):
 	return conts
 
 installed = "disabled"
-def setInstalled (inst):
-	installed = toButtonStatus (inst)
-
 def toButtonStatus (boolean):
 	if boolean:
 		return "normal"
@@ -60,7 +57,7 @@ def mainMenu (lastWindow = tkinter.Tk ()):
 		{"type" : "Button", "text" : "Help", "command" : window.destroy}
 	]
 	constructCanvas (window, conts)
-	
+
 	if not installed == "normal":
 		tkinter.messagebox.showwarning (title = "Discord not installed", message = "Discord is not installed, some options are now disabled")
 

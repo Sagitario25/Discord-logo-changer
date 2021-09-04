@@ -3,7 +3,6 @@ import command
 import os
 import shutil
 import sys
-import interface
 
 installed = gestor.discordInstalled ()
 if installed:
@@ -45,5 +44,6 @@ if len (sys.argv) > 1:
 			print ("Discord is not installed or isn't detected, there will not be any restrictions, but errors will occur.\n")
 		commandline ()
 
-interface.setInstalled (installed)
+import interface
+interface.installed = interface.toButtonStatus (installed)
 interface.mainMenu ()
