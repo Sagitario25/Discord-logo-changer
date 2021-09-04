@@ -42,17 +42,20 @@ def defaultContents (conts):
 
 installed = "disabled"
 def setInstalled (inst):
-	if inst:
-		installed = "normal"
+	installed = toButtonStatus (inst)
+
+def toButtonStatus (boolean):
+	if boolean:
+		return "normal"
 	else:
-		installed = "disabled"
+		return "disabled"
 
 def mainMenu (lastWindow = tkinter.Tk ()):
 	window = newWindow (lastWindow)
 
 	conts = [
 		{"type" : "Button", "text" : "Change Logo", "state" : installed, "command" : lambda: chooseIcon (window)},
-		{"type" : "Button", "text" : "Restore default", "command" : window.destroy},
+		{"type" : "Button", "text" : "Restore default", "state" : toButtonStatus (gestor.checkBackup ()), "command" : window.destroy},
 		{"type" : "Button", "text" : "Convert images to icons", "command" : lambda: resetWindow (window)},
 		{"type" : "Button", "text" : "Help", "command" : window.destroy}
 	]

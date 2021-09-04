@@ -103,6 +103,12 @@ def discordInstalled ():
 			return True
 	return False
 
+def checkBackup ():
+	if not os.path.exists ("Backup"):
+		return False
+
+	return os.path.exists (os.path.join ("Backup", "app.ico")) and os.path.exists (os.path.join ("Backup", "Discord.exe"))
+
 def taskkill (name = "discord.exe"):
 	#os.system ("taskkill -f -im discord.exe")
 	subprocess.run (["taskkill", "-f", "-im", name], capture_output = True)
