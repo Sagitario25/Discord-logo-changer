@@ -20,7 +20,7 @@ def constructCanvas (canvas, contents):
 		if   i["type"] == "Label":
 			tkinter.Label (canvas, text = i["text"]).pack (fill = i["fill"], expand = i["expand"], side = i["side"])
 		elif i["type"] == "Button":
-			tkinter.Button (canvas, text = i["text"], command = i["command"]).pack (fill = i["fill"], expand = i["expand"], side = i["side"])
+			tkinter.Button (canvas, text = i["text"], command = i["command"], state = i["state"]).pack (fill = i["fill"], expand = i["expand"], side = i["side"])
 		elif i["type"] == "Canvas":
 			newCanvas = tkinter.Canvas (canvas)
 			constructCanvas (newCanvas, i["contents"])
@@ -35,12 +35,17 @@ def defaultContents (conts):
 			i["expand"] = True
 		if not "side" in keys:
 			i["side"] = tkinter.TOP
+		if not "state" in keys:
+			i["state"] = "normal"
 
 	return conts
 
-installed = False
+installed = "disabled"
 def setInstalled (inst):
-	installed = inst
+	if inst:
+		installed = "normal"
+	else:
+		installed = "disabled"
 
 def mainMenu (lastWindow = tkinter.Tk ()):
 	window = newWindow (lastWindow)
