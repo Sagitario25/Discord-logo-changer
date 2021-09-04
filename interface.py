@@ -38,6 +38,10 @@ def defaultContents (conts):
 
 	return conts
 
+installed = False
+def setInstalled (inst):
+	installed = inst
+
 def mainMenu (lastWindow = tkinter.Tk ()):
 	window = newWindow (lastWindow)
 
