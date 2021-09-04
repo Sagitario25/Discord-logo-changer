@@ -51,13 +51,16 @@ def mainMenu (lastWindow = tkinter.Tk ()):
 	window = newWindow (lastWindow)
 
 	conts = [
-		{"type" : "Button", "text" : "Change Logo", "command" : lambda: chooseIcon (window)},
+		{"type" : "Button", "text" : "Change Logo", "state" : installed, "command" : lambda: chooseIcon (window)},
 		{"type" : "Button", "text" : "Restore default", "command" : window.destroy},
 		{"type" : "Button", "text" : "Convert images to icons", "command" : lambda: resetWindow (window)},
 		{"type" : "Button", "text" : "Help", "command" : window.destroy}
 	]
 	constructCanvas (window, conts)
 	
+	if not installed == "normal":
+		tkinter.messagebox.showwarning (title = "Discord not installed", message = "Discord is not installed, some options are now disabled")
+
 	window.mainloop ()
 
 def chooseIcon (lastWindow):
