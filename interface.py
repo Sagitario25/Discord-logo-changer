@@ -85,7 +85,8 @@ def changeIcon (name):
 	confirm = tkinter.messagebox.askokcancel (title = "Confirm logo change", message = f"Discord icon is going to be change to \"{name}\", are you sure?\nTo preview use previous menu.")
 	if confirm:
 		try:
-			gestor.callChange (name)
+			if tkinter.messagebox.askokcancel (title = "Warning", message = "To complete the action discord is going to close, are you sure?"):
+				gestor.callChange (name)
 		except Exception as exp:
 			tkinter.messagebox.showerror (title = "Error aplying changes", message = exp)
 	else:
