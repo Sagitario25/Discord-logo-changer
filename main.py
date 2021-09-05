@@ -5,6 +5,12 @@ import shutil
 import sys
 
 installed = gestor.discordInstalled ()
+try:
+	gestor.getPaths ()
+	installed = installed and True
+except:
+	installed = False
+
 if installed:
 	paths = gestor.getPaths ()
 	if not os.path.exists ("Backup"):
