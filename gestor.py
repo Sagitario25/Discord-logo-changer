@@ -63,7 +63,7 @@ def callChange (name):
 def callRepair ():
 	paths = getPaths (False)
 
-	repair ([os.path.join ("Backup", "app.ico"), os.path.join ("Backup", "app.ico"), os.path.join ("Backup", "Discord.exe")],
+	return repair ([os.path.join ("Backup", "app.ico"), os.path.join ("Backup", "app.ico"), os.path.join ("Backup", "Discord.exe")],
 	[paths["ico1"], paths["ico2"], paths["exe"]],
 	["Icon 1", "Icon 2", "Discord's executable"])
 
@@ -107,13 +107,11 @@ def repair (backupPaths, originalPaths, names):
 		if not os.path.exists (originalPath):
 			try:
 				shutil.copy (backupPath, originalPath)
-				print (f"{name} repaired")
-				changes.append (True)
+				changes.append (f"{name} repaired")
 			except Exception as e:
-				raise Exception (f"{name} rapair failed")
+				changes.append (f"{name} rapair failed")
 		else:
-			print (f"{name} OK")
-			changes.append (False)
+			changes.append (f"{name} OK")
 
 	for i in range (len (backupPaths)):
 		repairFile (backupPaths[i], originalPaths[i], names[i])
