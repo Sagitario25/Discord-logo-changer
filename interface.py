@@ -63,7 +63,7 @@ def mainMenu (lastWindow = tkinter.Tk ()):
 	conts = [
 		{"type" : "Button", "text" : "Change Logo", "state" : installed, "command" : lambda: chooseIcon (window)},
 		{"type" : "Button", "text" : "Repair discord", "state" : toButtonStatus (gestor.checkBackup () and installed), "command" : repair},
-		{"type" : "Button", "text" : "Restore default", "state" : toButtonStatus (gestor.checkBackup ()), "command" : window.destroy},
+		{"type" : "Button", "text" : "Restore default", "state" : toButtonStatus (gestor.checkBackup ()), "command" : restore},
 		{"type" : "Button", "text" : "Convert images to icons", "command" : lambda: resetWindow (window)},
 		{"type" : "Button", "text" : "Help", "command" : window.destroy}
 	]
@@ -117,3 +117,8 @@ def repair ():
 	warnWindow = functools.partial (tkinter.messagebox.askokcancel, "Warning", "To complete the action discord is going to close, are you sure?")
 
 	warnedAction (warnWindow, action)
+
+def restore ():
+	warnWindow = functools.partial (tkinter.messagebox.askokcancel, "Warning", "To complete the action discord is going to close, are you sure?")
+
+	warnedAction (warnWindow, gestor.callRestore)
