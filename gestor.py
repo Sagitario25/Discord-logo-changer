@@ -60,11 +60,11 @@ def callChange (name):
 	print (f"Logo changed to {name}")
 	print ("To apply the changes, please restart your computer")
 
-def getPaths ():
+def getPaths (checkFiles = True):
 	paths = {}
 	paths["discord"] = os.path.join (os.getenv ("localappdata"), "Discord")
 
-	while not os.path.exists (paths ["discord"]):
+	if not os.path.exists (paths ["discord"]):
 		raise Exception ("Discord not installed, install to procced")
 
 	for i in os.listdir (paths["discord"]):
@@ -86,8 +86,10 @@ def getPaths ():
 	paths["ico1"] = os.path.join (paths["discord"], "app.ico")
 	paths["ico2"] = os.path.join (paths["discordApp"], "app.ico")
 	paths["exe"] = os.path.join (paths["discordApp"], "Discord.exe")
-
-	while not (os.path.exists (paths["ico1"]) and os.path.exists (paths["ico2"]) and os.path.exists (paths["discordApp"])):
+	
+	if not os.path.exists (paths["discordApp"]):
+		raise FileNotFoundError ("Discord is not installed")
+	if not (os.path.exists (paths["ico1"]) and os.path.exists (paths["ico2"]) and os.path.exists (paths ["exe"])) and checkFiles:
 		raise FileNotFoundError (f"Some files are missing in discord folder ({paths['discord']}), fix them or reinstall discord.")
 
 	return paths
@@ -98,7 +100,6 @@ def discordInstalled ():
 		return False
 	for i in os.listdir (discordPath):
 		name = os.path.join (discordPath, i)
-		discordDir = False
 		if i[:3] == "app" and os.path.isdir (name):
 			return True
 	return False

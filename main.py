@@ -47,7 +47,7 @@ def commandline ():
 if len (sys.argv) > 1:
 	if sys.argv[1] == "terminal":
 		if not installed:
-			print ("Discord is not installed or isn't detected, there will not be any restrictions, but errors will occur.\n")
+			print ("Discord is not installed, isn't detected or there are some files missing, there will not be any restrictions, but errors will occur.\n")
 		commandline ()
 
 import interface
