@@ -40,6 +40,16 @@ def defaultContents (conts):
 
 	return conts
 
+def warnedAction (warnWindow, action):
+	confirm = warnWindow ()
+	if confirm:
+		try:
+			action ()
+		except Exception as e:
+			tkinter.messagebox.showerror (title = "Error", message = f"The next error ocurred while completing the action\n{e}")
+	else:
+		tkinter.messagebox.showinfo (title = "Action cancelled", message = "The change was cancelled, going back to menu.")
+
 installed = "disabled"
 def toButtonStatus (boolean):
 	if boolean:
@@ -83,18 +93,15 @@ def chooseIcon (lastWindow):
 	window.mainloop ()
 
 def changeIcon (name):
-	confirm = tkinter.messagebox.askokcancel (title = "Confirm logo change", message = f"Discord icon is going to be change to \"{name}\", are you sure?\nTo preview use previous menu.")
-	if confirm:
-		try:
-			if tkinter.messagebox.askokcancel (title = "Warning", message = "To complete the action discord is going to close, are you sure?"):
-				gestor.callChange (name)
-		except Exception as exp:
-			tkinter.messagebox.showerror (title = "Error aplying changes", message = exp)
-	else:
-		tkinter.messagebox.showinfo (title = "Action cancelled", message = "The change was cancelled, going back to menu.")
+	def action ():
+		if tkinter.messagebox.askokcancel (title = "Warning", message = "To complete the action discord is going to close, are you sure?"):
+			gestor.callChange (name)
+	warnWindow = functools.partial (tkinter.messagebox.askokcancel, "Confirm logo change", f"Discord icon is going to be change to \"{name}\", are you sure?\nTo preview use previous menu.")
+
+	warnedAction (warnWindow, action)
 
 def repair ():
-	if tkinter.messagebox.askokcancel (title = "Warning", message = "To complete the action discord is going to close, are you sure?"):
+	def action ():
 		results = gestor.callRepair ()
 		resultWindow = newWindow (tkinter.Tk ())
 		resultWindow.title ("Repair results")
@@ -107,5 +114,6 @@ def repair ():
 		conts.append ({"type" : "Button", "text" : "Back to main menu", "command" : resultWindow.destroy})
 
 		constructCanvas (resultWindow, conts)
-	else:
-		tkinter.messagebox.showinfo (title = "Action cancelled", message = "The change was cancelled, going back to menu.")
+	warnWindow = functools.partial (tkinter.messagebox.askokcancel, "Warning", "To complete the action discord is going to close, are you sure?")
+
+	warnedAction (warnWindow, action)
