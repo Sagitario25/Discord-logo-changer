@@ -94,6 +94,21 @@ def getPaths (checkFiles = True):
 
 	return paths
 
+def repair ():
+	paths = getPaths (False)
+	changes = [not os.path.exists (paths ["ico1"]),
+	not os.path.exists (paths ["ico2"]),
+	not os.path.exists (paths ["exe"])
+	]
+	if changes[0]:
+		shutil.copy (os.path.join ("Backup", "app.ico"), paths["ico1"])
+	if changes[1]:
+		shutil.copy (os.path.join ("Backup", "app.ico"), paths["ico2"])
+	if changes[2]:
+		shutil.copy (os.path.join ("Backup", "Discord.exe"), paths["exe"])
+
+	return changes
+
 def discordInstalled ():
 	discordPath = os.path.join (os.getenv ("localappdata"), "Discord")
 	if not os.path.exists (discordPath):
