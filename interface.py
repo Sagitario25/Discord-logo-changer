@@ -52,6 +52,7 @@ def mainMenu (lastWindow = tkinter.Tk ()):
 
 	conts = [
 		{"type" : "Button", "text" : "Change Logo", "state" : installed, "command" : lambda: chooseIcon (window)},
+		{"type" : "Button", "text" : "Repair discord", "state" : toButtonStatus (gestor.checkBackup () and installed), "command" : repair},
 		{"type" : "Button", "text" : "Restore default", "state" : toButtonStatus (gestor.checkBackup ()), "command" : window.destroy},
 		{"type" : "Button", "text" : "Convert images to icons", "command" : lambda: resetWindow (window)},
 		{"type" : "Button", "text" : "Help", "command" : window.destroy}
@@ -89,5 +90,22 @@ def changeIcon (name):
 				gestor.callChange (name)
 		except Exception as exp:
 			tkinter.messagebox.showerror (title = "Error aplying changes", message = exp)
+	else:
+		tkinter.messagebox.showinfo (title = "Action cancelled", message = "The change was cancelled, going back to menu.")
+
+def repair ():
+	if tkinter.messagebox.askokcancel (title = "Warning", message = "To complete the action discord is going to close, are you sure?"):
+		results = gestor.callRepair ()
+		resultWindow = newWindow (tkinter.Tk ())
+		resultWindow.title ("Repair results")
+		conts = []
+
+		for i in results:
+			conts.append ({"type" : "Label", "text" : i})
+
+		conts.append ({"type" : "Label", "text" : ""})
+		conts.append ({"type" : "Button", "text" : "Back to main menu", "command" : resultWindow.destroy})
+
+		constructCanvas (resultWindow, conts)
 	else:
 		tkinter.messagebox.showinfo (title = "Action cancelled", message = "The change was cancelled, going back to menu.")
