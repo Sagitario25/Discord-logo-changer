@@ -1,10 +1,10 @@
-from genericpath import exists
 import os
 import subprocess
 import shutil
 import subprocess
 import sys
 from packaging import version
+import PIL.Image
 
 def changeEXEicon (originalPath, resultPath, iconPath):
 	taskkill ()
@@ -70,6 +70,13 @@ def callRepair ():
 	[paths["ico1"], paths["ico2"], paths["exe"]],
 	["Icon 1", "Icon 2", "Discord's executable"])
 
+def callImage2ico (paths):
+	if not type (paths) == type ([]):
+		paths = [paths]
+	for i in paths:
+		name, _ = os.path.splitext (os.path.basename (i))
+		image2ico (i, os.path.join ("Icons", name + ".ico"))
+
 def getPaths (checkFiles = True):
 	paths = {}
 	paths["discord"] = os.path.join (os.getenv ("localappdata"), "Discord")
@@ -120,6 +127,9 @@ def repair (backupPaths, originalPaths, names):
 		repairFile (backupPaths[i], originalPaths[i], names[i])
 
 	return changes
+
+def image2ico (objective, result):
+	PIL.Image.open (objective).save (result)
 
 def discordInstalled ():
 	discordPath = os.path.join (os.getenv ("localappdata"), "Discord")
