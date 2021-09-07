@@ -11,7 +11,7 @@ if os.path.exists ("dist"):#Remove previous build
 
 setup(
     options = {'py2exe': {'bundle_files': 1, 'compressed': True}},
-    console = [{
+    windows = [{
 		"script" : "main.py",
 		"icon_resources" : [(0, "app.ico")]
 	}],
