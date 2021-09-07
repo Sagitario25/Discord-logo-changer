@@ -60,6 +60,13 @@ def callChange (name):
 	print (f"Logo changed to {name}")
 	print ("To apply the changes, please restart your computer")
 
+def callRepair ():
+	paths = getPaths (False)
+
+	repair ([os.path.join ("Backup", "app.ico"), os.path.join ("Backup", "app.ico"), os.path.join ("Backup", "Discord.exe")],
+	[paths["ico1"], paths["ico2"], paths["exe"]],
+	["Icon 1", "Icon 2", "Discord's executable"])
+
 def getPaths (checkFiles = True):
 	paths = {}
 	paths["discord"] = os.path.join (os.getenv ("localappdata"), "Discord")
@@ -94,22 +101,24 @@ def getPaths (checkFiles = True):
 
 	return paths
 
-def repair ():
+def repair (backupPaths, originalPaths, names):
+	changes = []
 	def repairFile (backupPath, originalPath, name):
 		if not os.path.exists (originalPath):
 			try:
 				shutil.copy (backupPath, originalPath)
 				print (f"{name} repaired")
+				changes.append (True)
 			except Exception as e:
 				raise Exception (f"{name} rapair failed")
 		else:
 			print (f"{name} OK")
+			changes.append (False)
 
-	paths = getPaths (False)
+	for i in range (len (backupPaths)):
+		repairFile (backupPaths[i], originalPaths[i], names[i])
 
-	repairFile (os.path.join ("Backup", "app.ico"), paths["ico1"], "Icon 1")
-	repairFile (os.path.join ("Backup", "app.ico"), paths["ico2"], "Icon 2")
-	repairFile (os.path.join ("Backup", "Discord.exe"), paths["exe"], "Discord's executable")
+	return changes
 
 def discordInstalled ():
 	discordPath = os.path.join (os.getenv ("localappdata"), "Discord")
