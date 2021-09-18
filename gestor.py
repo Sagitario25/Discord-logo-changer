@@ -3,7 +3,8 @@ import subprocess
 import shutil
 import subprocess
 import sys
-from packaging import version
+import filecmp
+import packaging.version
 import PIL.Image
 
 def changeEXEicon (originalPath, resultPath, iconPath):
@@ -13,7 +14,7 @@ def changeEXEicon (originalPath, resultPath, iconPath):
 	if os.path.splitext (sys.argv[0])[1] == ".exe":
 		input ()
 
-def changeDiscordIcon (iconName, bypass = False):
+def changeDiscordIcon (iconName, bypass = False, tries = 1):
 	if (not iconName.split ('\\')[-1] in getNames()) and (not bypass):
 		raise FileNotFoundError ("Provided icon name does not exist")
 
@@ -22,19 +23,19 @@ def changeDiscordIcon (iconName, bypass = False):
 	shutil.copy (iconName + ".ico", paths["ico1"])
 	shutil.copy (iconName + ".ico", paths["ico2"])
 
-	try:
-		counter = 0
-		while not os.path.exists (paths["exe"] + ".new"):
-			changeEXEicon (paths["exe"], paths["exe"] + ".new", iconName + ".ico")
-			if counter > 4:
-				raise Exception ("Adding icon failed")
-			counter += 1
-		os.remove (paths["exe"])
-		os.rename (paths["exe"] + ".new", paths["exe"])
-	except Exception as e:
-		raise e
-	finally:
-		os.remove ("tool.ini")
+	counter = 0
+
+	if not os.path.exists ("Cache"):
+		os.mkdir ("Cache")
+	paths["cached"] = os.path.join ("Cache", "Discord.exe")
+	shutil.copyfile (paths["exe"], paths["cached"])
+
+	while not filecmp.cmp (paths["exe"], paths["cached"]):
+		changeEXEicon (paths["exe"], paths["exe"], iconName + ".ico")
+		filecmp.clear_cache ()
+		if counter > tries:
+			raise Exception ("Adding icon failed")
+		counter += 1
 
 def getNames ():
 	names = []
@@ -86,10 +87,10 @@ def getPaths (checkFiles = True):
 
 	for i in os.listdir (paths["discord"]):
 		name = os.path.join (paths["discord"], i)
-		newestVer = version.parse ("0.0.0")
+		newestVer = packaging.version.parse ("0.0.0")
 		if i[:3] == "app" and os.path.isdir (name):
 			try:
-				ver = version.parse (os.path.basename (name)[4:])
+				ver = packaging.version.parse (os.path.basename (name)[4:])
 				if ver > newestVer:
 					newestVer = ver
 				paths["discordApp"] = name
