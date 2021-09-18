@@ -57,13 +57,21 @@ def toButtonStatus (boolean):
 	else:
 		return "disabled"
 
+def buttonStatusToBool (buttonStatus):
+	if buttonStatus == "normal":
+		return True
+	elif buttonStatus == "disabled":
+		return False
+	else:
+		return None
+
 def mainMenu (lastWindow = tkinter.Tk ()):
 	window = newWindow (lastWindow)
 
 	conts = [
 		{"type" : "Button", "text" : "Change Logo", "state" : installed, "command" : lambda: chooseIcon (window)},
-		{"type" : "Button", "text" : "Repair discord", "state" : toButtonStatus (gestor.checkBackup () and installed), "command" : repair},
-		{"type" : "Button", "text" : "Restore default", "state" : toButtonStatus (gestor.checkBackup ()), "command" : restore},
+		{"type" : "Button", "text" : "Repair discord", "state" : toButtonStatus (gestor.checkBackup () and buttonStatusToBool (installed)), "command" : repair},
+		{"type" : "Button", "text" : "Restore default", "state" : toButtonStatus (gestor.checkBackup () and buttonStatusToBool (installed)), "command" : restore},
 		{"type" : "Button", "text" : "Convert images to icons", "command" : lambda: resetWindow (window)},
 		{"type" : "Button", "text" : "Help", "command" : window.destroy}
 	]
