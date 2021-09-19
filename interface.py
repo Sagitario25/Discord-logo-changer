@@ -5,9 +5,13 @@ import functools
 import os
 import subprocess
 
+def createWindow ():
+	window = tkinter.Tk ()
+	window.minsize (200, 0)
+	return window
+
 def newWindow (window):
 	resetWindow (window)
-	window.minsize (200, 0)
 	return window
 
 def resetWindow (window):
@@ -65,8 +69,11 @@ def buttonStatusToBool (buttonStatus):
 	else:
 		return None
 
-def mainMenu (lastWindow = tkinter.Tk ()):
-	window = newWindow (lastWindow)
+def mainMenu (lastWindow = None):
+	if lastWindow == None:
+		window = createWindow ()
+	else:
+		window = newWindow (lastWindow)
 
 	conts = [
 		{"type" : "Button", "text" : "Change Logo", "state" : installed, "command" : lambda: chooseIcon (window)},
