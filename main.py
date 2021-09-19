@@ -53,5 +53,5 @@ if len (sys.argv) > 1:
 		commandline ()
 
 import interface
-interface.installed = interface.toButtonStatus (installed)
+interface.installed = interface.engine.toButtonStatus (installed)
 interface.mainMenu ()
