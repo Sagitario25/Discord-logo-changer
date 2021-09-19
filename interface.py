@@ -8,6 +8,9 @@ import subprocess
 def createWindow ():
 	window = tkinter.Tk ()
 	window.minsize (200, 0)
+	window.iconbitmap ("app.ico")
+	window.title ("Discord Logo Changer")
+	window.resizable (width = True, height = False)
 	return window
 
 def newWindow (window):
