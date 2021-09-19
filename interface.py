@@ -83,7 +83,9 @@ def mainMenu (lastWindow = None):
 		{"type" : "Button", "text" : "Repair discord", "state" : toButtonStatus (gestor.checkBackup () and buttonStatusToBool (installed)), "command" : repair},
 		{"type" : "Button", "text" : "Restore default", "state" : toButtonStatus (gestor.checkBackup () and buttonStatusToBool (installed)), "command" : restore},
 		{"type" : "Button", "text" : "Convert images to icons", "command" : lambda: resetWindow (window)},
-		{"type" : "Button", "text" : "Help", "command" : window.destroy}
+		{"type" : "Button", "text" : "Help", "command" : window.destroy},
+		{"type" : "Label", "text" : ""},
+		{"type" : "Button", "text" : "Exit", "command" : window.destroy}
 	]
 	constructCanvas (window, conts)
 
