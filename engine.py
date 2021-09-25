@@ -44,7 +44,7 @@ def defaultContents (conts):
 
 	return conts
 
-def warnedAction (warnWindow, action):
+def warnedAction (action, warnWindow = lambda: tkinter.messagebox.askokcancel ("Warning", "To complete the action discord is going to close, are you sure?")):
 	confirm = warnWindow ()
 	if confirm:
 		try:

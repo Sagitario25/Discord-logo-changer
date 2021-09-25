@@ -116,14 +116,11 @@ def repair ():
 		conts.append ({"type" : "Button", "text" : "Back to main menu", "command" : resultWindow.destroy})
 
 		engine.constructCanvas (resultWindow, conts)
-	warnWindow = functools.partial (engine.tkinter.messagebox.askokcancel, "Warning", "To complete the action discord is going to close, are you sure?")
 
-	engine.warnedAction (warnWindow, action)
+	engine.warnedAction (action)
 
 def restore ():
-	warnWindow = functools.partial (engine.tkinter.messagebox.askokcancel, "Warning", "To complete the action discord is going to close, are you sure?")
-
-	engine.warnedAction (warnWindow, gestor.callRestore)
+	engine.warnedAction (gestor.callRestore)
 
 def convert (images):
 	pass
