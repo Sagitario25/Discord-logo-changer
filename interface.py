@@ -82,12 +82,14 @@ def selectImages (lastWindow, toAppend = []):
 		("All image format", ".jpeg"),
 		("All image format", ".ico")
 	]
-	for i in engine.tkinter.filedialog.askopenfilenames (parent = lastWindow, filetypes = filetypes, title = "Select images"):
-		if not os.path.exists ("Cache"):
+
+	if not os.path.exists ("Cache"):
 			os.mkdir ("Cache")
-		pathImage = os.path.join ("Cache", os.path.basename (i))
+	for i in engine.tkinter.filedialog.askopenfilenames (parent = lastWindow, filetypes = filetypes, title = "Select images"):
+		originalName = os.path.basename (i)
+		pathImage = os.path.join ("Cache", str (len (toAppend)))
 		shutil.copy (i, pathImage)
-		toAppend.append (((os.path.basename (pathImage), pathImage)))
+		toAppend.append (((originalName, pathImage)))
 
 	image2ico (lastWindow, toAppend)
 
