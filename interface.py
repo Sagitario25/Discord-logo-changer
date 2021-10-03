@@ -89,7 +89,7 @@ def selectImages (lastWindow, toAppend = []):
 		originalName = os.path.basename (i)
 		pathImage = os.path.join ("Cache", str (len (toAppend)))
 		shutil.copy (i, pathImage)
-		toAppend.append (((originalName, pathImage)))
+		toAppend.append ((originalName, pathImage))
 
 	image2ico (lastWindow, toAppend)
 
@@ -123,4 +123,27 @@ def restore ():
 	engine.warnedAction (gestor.callRestore)
 
 def convert (images):
-	pass
+	undone = []
+	for i in images:
+		path = os.path.join ("Icons", i[0])
+		if os.path.exists (path):
+			answer = engine.tkinter.messagebox.askyesnocancel ("Warning", f"There is already a icon named {i[0]}, do you want to overwrite it?\nPress cancel to skip.")
+			if answer == True:
+				gestor.image2ico (i[1], os.path.join ("Icons", i[0]))
+			elif answer == False:
+				while True:
+					path = engine.tkinter.filedialog.asksaveasfilename (filetypes = [("Icon image", ".ico")], initialdir = os.path.join (os.getcwd (), "Icons"), initialfile = i[0])
+					abspath = os.path.abspath ("Icons")
+					if os.path.normpath (path [:len (abspath)]) == os.path.normpath (abspath):
+						gestor.image2ico (i[1], path)
+						break
+					elif path == "":
+						undone.append (i)
+						break
+					else:
+						engine.tkinter.messagebox.showerror ("Invalid path", "The path you have choosen is not valid, it has to be in the Icons directory.")
+			elif answer == None:
+				undone.append (i)
+		else:
+			gestor.image2ico (i[1], os.path.join ("Icons", i[0]))
+	return undone
