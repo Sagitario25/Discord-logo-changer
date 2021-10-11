@@ -130,7 +130,7 @@ def repair (backupPaths, originalPaths, names):
 	return changes
 
 def image2ico (objective, result):
-	PIL.Image.open (objective).save (result)
+	PIL.Image.open (objective).save (result, sizes = [(16, 16), (32, 32), (48, 48), (256, 256)])
 
 def discordInstalled ():
 	discordPath = os.path.join (os.getenv ("localappdata"), "Discord")
