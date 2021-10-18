@@ -71,12 +71,18 @@ def callRepair ():
 	[paths["ico1"], paths["ico2"], paths["exe"]],
 	["Icon 1", "Icon 2", "Discord's executable"])
 
-def callImage2ico (paths):
+def callImage2ico (paths, names = []):
 	if not type (paths) == type ([]):
 		paths = [paths]
-	for i in paths:
-		name, _ = os.path.splitext (os.path.basename (i))
-		image2ico (i, os.path.join ("Icons", name + ".ico"))
+	if not type (names) == type ([]):
+		names = [names]
+	for i in range (len (paths)):
+		try:
+			name = names[i]
+		except:
+			name, _ = os.path.splitext (os.path.basename (paths [i]))
+			name += ".ico"
+		image2ico (paths[i], os.path.join ("Icons", name))
 
 def getPaths (checkFiles = True):
 	paths = {}
@@ -130,7 +136,32 @@ def repair (backupPaths, originalPaths, names):
 	return changes
 
 def image2ico (objective, result):
-	PIL.Image.open (objective).save (result, sizes = [(16, 16), (32, 32), (48, 48), (256, 256)])
+	def squareProportion (img):
+		img = img.convert ("RGBA")
+		side = max (img.width, img.height)
+		square = PIL.Image.new ("RGBA", (side, side), (0, 0, 0, 0))
+
+		x, y = startingCoords ((img.width, img.height))
+		for i in range (0, img.width):
+			for j in range (0, img.height):
+				pixel = img.getpixel ((i, j))
+				square.putpixel ((x + i, y + j), pixel)
+
+		return square
+
+	def startingCoords (res):
+		smallSide = int ((max (res) - min (res)) / 2)
+		indexBigSide = [i for i in res].index (max (res))
+
+		coordList = [0, 0]
+		coordList[indexBigSide] = 0
+		coordList[1 - indexBigSide] = smallSide
+
+		return tuple (coordList)
+
+	img = PIL.Image.open (objective)
+	img = squareProportion (img)
+	img.save (result, format = "ICO", sizes = [(i, i) for i in [16, 32, 48, 256]])
 
 def discordInstalled ():
 	discordPath = os.path.join (os.getenv ("localappdata"), "Discord")

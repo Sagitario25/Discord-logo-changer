@@ -99,8 +99,9 @@ def selectImages (lastWindow, toAppend = []):
 	for i in engine.tkinter.filedialog.askopenfilenames (parent = lastWindow, filetypes = filetypes, title = "Select images"):
 		originalName = os.path.basename (i)
 		pathImage = os.path.join ("Cache", str (len (toAppend)))
+		objectiveName = os.path.splitext (originalName)[0] + ".ico"
 		shutil.copy (i, pathImage)
-		toAppend.append ((originalName, pathImage))
+		toAppend.append ((originalName, pathImage, objectiveName))
 
 	image2ico (lastWindow, toAppend)
 
@@ -136,17 +137,17 @@ def restore ():
 def convert (images):
 	undone = []
 	for i in images:
-		path = os.path.join ("Icons", i[0])
+		path = os.path.join ("Icons", i[2])
 		if os.path.exists (path):
-			answer = engine.tkinter.messagebox.askyesnocancel ("Warning", f"There is already a icon named {i[0]}, do you want to overwrite it?\nPress cancel to skip.")
+			answer = engine.tkinter.messagebox.askyesnocancel ("Warning", f"There is already a icon named {i[2]}, do you want to overwrite it?\nPress cancel to skip.")
 			if answer == True:
-				gestor.image2ico (i[1], os.path.join ("Icons", i[0]))
+				gestor.callImage2ico (i[1], i[2])
 			elif answer == False:
 				while True:
 					path = engine.tkinter.filedialog.asksaveasfilename (filetypes = [("Icon image", ".ico")], initialdir = os.path.join (os.getcwd (), "Icons"), initialfile = i[0])
 					abspath = os.path.abspath ("Icons")
-					if os.path.normpath (path [:len (abspath)]) == os.path.normpath (abspath):
-						gestor.image2ico (i[1], path)
+					if os.path.normpath (path [:len (abspath)]) == os.path.normpath (abspath) and os.path.splitext (path)[1] == ".ico":
+						gestor.callImage2ico (i[1], os.path.splitext (os.path.basename (path))[0] + ".ico")
 						break
 					elif path == "":
 						undone.append (i)
@@ -156,5 +157,5 @@ def convert (images):
 			elif answer == None:
 				undone.append (i)
 		else:
-			gestor.image2ico (i[1], os.path.join ("Icons", i[0]))
+			gestor.callImage2ico (i[1], i[2])
 	return undone
