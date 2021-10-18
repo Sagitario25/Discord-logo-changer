@@ -6,6 +6,7 @@ import sys
 import filecmp
 import packaging.version
 import PIL.Image
+import psutil
 
 def changeEXEicon (originalPath, resultPath, iconPath):
 	taskkill ()
@@ -180,5 +181,5 @@ def checkBackup ():
 	return os.path.exists (os.path.join ("Backup", "app.ico")) and os.path.exists (os.path.join ("Backup", "Discord.exe"))
 
 def taskkill (name = "discord.exe"):
-	#os.system ("taskkill -f -im discord.exe")
-	subprocess.run (["taskkill", "-f", "-im", name], capture_output = True)
+	while name in [i.name () for i in psutil.process_iter ()]:
+		subprocess.run (["taskkill", "-f", "-im", name], capture_output = True)
