@@ -81,6 +81,7 @@ def image2ico (lastWindow, selected = []):
 				{"type" : "Button", "text" : "Preview", "side" : engine.tkinter.LEFT, "expand" : False, "command" : functools.partial (subprocess.run, [os.path.join (os.getenv ("windir"), "System32", "mspaint.exe"), i[1]])}
 			]})
 		conts.append ({"type" : "Button", "text" : "Select more images", "command" : manageSelection})
+		conts.append ({"type" : "Button", "text" : "Deselect last image", "command" : lambda: image2ico (lastWindow, selected[:-1])})
 	conts.append ({"type" : "Button", "text" : "Convert", "state" : engine.toButtonStatus (not len (selected) == 0), "command" :  lambda: conversionEnded (selected, convert (selected)) if engine.tkinter.messagebox.askyesno (title = "Confirmation", message = "The conversion is going to start, are you sure?") else print ()})
 	conts.append ({"type" : "Label", "text" : ""})
 	conts.append ({"type" : "Button", "text" : "Back to main menu", "command" : lambda: mainMenu (window)})
