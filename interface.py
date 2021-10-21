@@ -68,7 +68,7 @@ def image2ico (lastWindow, selected = []):
 	if len (selected) == 0:
 		conts = [
 			{"type" : "Label", "text" : "There are no images selected"},
-			{"type" : "Button", "text" : "Select images", "command" : lambda: selectImages (window)},
+			{"type" : "Button", "text" : "Select images", "command" : lambda: selectImages (window, [])},
 		]
 	else:
 		conts = []
