@@ -53,6 +53,9 @@ def chooseIcon (lastWindow):
 	window.mainloop ()
 
 def image2ico (lastWindow, selected = []):
+	def manageSelection ():
+		newImages = selectImages (selected)
+		image2ico (lastWindow, newImages)
 	def conversionEnded (images, undone):
 		engine.tkinter.messagebox.showinfo (title = "Conversion ended", message = f"The conversion has ended.\n{len (undone)} out of {len (images)} have failed.")
 		if len (undone) == 0:
@@ -68,7 +71,7 @@ def image2ico (lastWindow, selected = []):
 	if len (selected) == 0:
 		conts = [
 			{"type" : "Label", "text" : "There are no images selected"},
-			{"type" : "Button", "text" : "Select images", "command" : lambda: selectImages (window, [])},
+			{"type" : "Button", "text" : "Select images", "command" : manageSelection},
 		]
 	else:
 		conts = []
@@ -77,7 +80,7 @@ def image2ico (lastWindow, selected = []):
 				{"type" : "Label", "text" : i[0], "side" : engine.tkinter.LEFT, "expand" : True},
 				{"type" : "Button", "text" : "Preview", "side" : engine.tkinter.LEFT, "expand" : False, "command" : functools.partial (subprocess.run, [os.path.join (os.getenv ("windir"), "System32", "mspaint.exe"), i[1]])}
 			]})
-		conts.append ({"type" : "Button", "text" : "Select more images", "command" : lambda: selectImages (window, selected)})
+		conts.append ({"type" : "Button", "text" : "Select more images", "command" : manageSelection})
 	conts.append ({"type" : "Button", "text" : "Convert", "state" : engine.toButtonStatus (not len (selected) == 0), "command" :  lambda: conversionEnded (selected, convert (selected)) if engine.tkinter.messagebox.askyesno (title = "Confirmation", message = "The conversion is going to start, are you sure?") else print ()})
 	conts.append ({"type" : "Label", "text" : ""})
 	conts.append ({"type" : "Button", "text" : "Back to main menu", "command" : lambda: mainMenu (window)})
@@ -86,7 +89,7 @@ def image2ico (lastWindow, selected = []):
 
 	window.mainloop ()
 
-def selectImages (lastWindow, toAppend = []):
+def selectImages (toAppend = []):
 	filetypes = [
 		("All image format", ".png"),
 		("All image format", ".jpg"),
@@ -96,14 +99,14 @@ def selectImages (lastWindow, toAppend = []):
 
 	if not os.path.exists ("Cache"):
 			os.mkdir ("Cache")
-	for i in engine.tkinter.filedialog.askopenfilenames (parent = lastWindow, filetypes = filetypes, title = "Select images"):
+	for i in engine.tkinter.filedialog.askopenfilenames (filetypes = filetypes, title = "Select images"):
 		originalName = os.path.basename (i)
 		pathImage = os.path.join ("Cache", str (len (toAppend)))
 		objectiveName = os.path.splitext (originalName)[0] + ".ico"
 		shutil.copy (i, pathImage)
 		toAppend.append ((originalName, pathImage, objectiveName))
 
-	image2ico (lastWindow, toAppend)
+	return toAppend
 
 ###Actions###
 def changeIcon (name):
