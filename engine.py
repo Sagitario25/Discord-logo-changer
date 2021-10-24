@@ -22,8 +22,12 @@ def resetWindow (window):
 def constructCanvas (canvas, contents):
 	contents = defaultContents (contents)
 	for i in contents:
+		keys = [j for j in i]
 		if   i["type"] == "Label":
-			tkinter.Label (canvas, text = i["text"]).pack (fill = i["fill"], expand = i["expand"], side = i["side"])
+			if "text" in keys:
+				tkinter.Label (canvas, text = i["text"]).pack (fill = i["fill"], expand = i["expand"], side = i["side"])
+			elif "image" in keys:
+				tkinter.Label (canvas, image = i["image"]).pack (fill = i["fill"], expand = i["expand"], side = i["side"])
 		elif i["type"] == "Button":
 			tkinter.Button (canvas, text = i["text"], command = i["command"], state = i["state"]).pack (fill = i["fill"], expand = i["expand"], side = i["side"])
 		elif i["type"] == "Canvas":
