@@ -1,10 +1,11 @@
-import tkinter
-from tkinter import messagebox
+#Modules
 import gestor
+import engine
+
+#Packages
 import functools
 import os
 import subprocess
-import engine
 import shutil
 
 installed = "disabled"

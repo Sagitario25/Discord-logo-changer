@@ -1,5 +1,8 @@
+#Modules
 import gestor
 import command
+
+#Packages
 import os
 import shutil
 import sys
