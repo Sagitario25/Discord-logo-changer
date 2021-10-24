@@ -2,6 +2,8 @@
 import tkinter
 import tkinter.messagebox
 import tkinter.filedialog
+import PIL.Image
+import PIL.ImageTk
 
 def createWindow ():
 	window = tkinter.Tk ()
@@ -58,6 +60,21 @@ def warnedAction (action, warnWindow = lambda: tkinter.messagebox.askokcancel ("
 			tkinter.messagebox.showerror (title = "Error", message = f"The next error ocurred while completing the action\n{e}")
 	else:
 		tkinter.messagebox.showinfo (title = "Action cancelled", message = "The change was cancelled, going back to menu.")
+
+def previewImage (path, size = (256, 256)):
+	window = createWindow ()#Start window
+	window.resizable (width = False, height = False)
+	window.title ("Preview")#Modify this to change the title
+	rawimg = PIL.Image.open(path)#Open image path
+
+	if size != (256, 256):#If a specific resolution has been requested
+		rawimg = rawimg.resize (size)#Change the image resolution
+
+	img = PIL.ImageTk.PhotoImage(rawimg, master = window)#Adapt the image to tkinter
+	data = [{"type" : "Label", "image" : img}]
+	constructCanvas (window, data)
+
+	window.mainloop ()
 
 def toButtonStatus (boolean):
 	if boolean:

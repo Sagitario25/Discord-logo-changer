@@ -44,7 +44,7 @@ def chooseIcon (lastWindow):
 	for i in gestor.getNames ():
 		conts.append ({"type" : "Canvas", "contents" : [
 			{"type" : "Button", "text" : i, "side" : engine.tkinter.LEFT, "expand" : True, "command" : functools.partial (changeIcon, i)},
-			{"type" : "Button", "text" : "Preview", "side" : engine.tkinter.LEFT, "expand" : False, "command" : functools.partial (subprocess.run, [os.path.join (os.getenv ("windir"), "System32", "mspaint.exe"), os.path.join ("Icons", i + ".ico")])}
+			{"type" : "Button", "text" : "Preview", "side" : engine.tkinter.LEFT, "expand" : False, "command" : functools.partial (engine.previewImage, os.path.join ("Icons", i + ".ico"))}
 			]})
 	conts.append ({"type" : "Label", "text" : ""})
 	conts.append ({"type" : "Button", "text" : "Back to main menu", "command" : lambda: mainMenu (window)})
@@ -79,7 +79,7 @@ def image2ico (lastWindow, selected = []):
 		for i in selected:
 			conts.append ({"type" : "Canvas", "contents" : [
 				{"type" : "Label", "text" : i[0], "side" : engine.tkinter.LEFT, "expand" : True},
-				{"type" : "Button", "text" : "Preview", "side" : engine.tkinter.LEFT, "expand" : False, "command" : functools.partial (subprocess.run, [os.path.join (os.getenv ("windir"), "System32", "mspaint.exe"), i[1]])}
+				{"type" : "Button", "text" : "Preview", "side" : engine.tkinter.LEFT, "expand" : False, "command" : functools.partial (engine.previewImage, i[1])}
 			]})
 		conts.append ({"type" : "Button", "text" : "Select more images", "command" : manageSelection})
 		conts.append ({"type" : "Button", "text" : "Deselect last image", "command" : lambda: image2ico (lastWindow, selected[:-1])})
