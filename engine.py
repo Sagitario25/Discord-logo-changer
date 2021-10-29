@@ -29,7 +29,7 @@ def constructCanvas (canvas, contents):
 			if "text" in keys:
 				tkinter.Label (canvas, text = i["text"]).pack (fill = i["fill"], expand = i["expand"], side = i["side"])
 			elif "image" in keys:
-				tkinter.Label (canvas, image = i["image"]).pack (fill = i["fill"], expand = i["expand"], side = i["side"])
+				tkinter.Label (canvas, image = i["image"], border = False).pack (fill = i["fill"], expand = i["expand"], side = i["side"])
 		elif i["type"] == "Button":
 			tkinter.Button (canvas, text = i["text"], command = i["command"], state = i["state"]).pack (fill = i["fill"], expand = i["expand"], side = i["side"])
 		elif i["type"] == "Canvas":
@@ -63,6 +63,7 @@ def warnedAction (action, warnWindow = lambda: tkinter.messagebox.askokcancel ("
 
 def previewImage (path, size = (256, 256)):
 	window = createWindow ()#Start window
+	window.minsize (size[0], size[1])
 	window.resizable (width = False, height = False)
 	window.title ("Preview")#Modify this to change the title
 	rawimg = PIL.Image.open(path)#Open image path
