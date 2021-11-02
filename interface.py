@@ -113,12 +113,9 @@ def selectImages (toAppend = []):
 
 ###Actions###
 def changeIcon (name):
-	def action ():
-		if engine.tkinter.messagebox.askokcancel (title = "Warning", message = "To complete the action discord is going to close, are you sure?"):
-			gestor.callChange (name)
-	warnWindow = functools.partial (engine.tkinter.messagebox.askokcancel, "Confirm logo change", f"Discord icon is going to be change to \"{name}\", are you sure?\nTo preview use previous menu.")
+	warnWindow =  functools.partial (engine.tkinter.messagebox.askokcancel, "Confirm logo change", f"Discord icon is going to be change to \"{name}\", are you sure?\nTo preview use previous menu.")
 
-	engine.warnedAction (warnWindow, action)
+	engine.warnedAction (action = lambda: gestor.callChange (name), warnWindow = warnWindow)
 
 def repair ():
 	def action ():
