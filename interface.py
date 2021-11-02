@@ -117,6 +117,8 @@ def changeIcon (name):
 
 	engine.warnedAction (action = lambda: gestor.callChange (name), warnWindow = warnWindow)
 
+	engine.tkinter.messagebox.showinfo ("Change finished", "The change was succesfully completed.")
+
 def repair ():
 	def action ():
 		results = gestor.callRepair ()
