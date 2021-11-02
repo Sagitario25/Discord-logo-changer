@@ -21,7 +21,7 @@ def mainMenu (lastWindow = None):
 
 	conts = [
 		{"type" : "Button", "text" : "Change Logo", "state" : installed, "command" : lambda: chooseIcon (window)},
-		{"type" : "Button", "text" : "Repair discord", "state" : engine.toButtonStatus (gestor.checkBackup () and engine.buttonStatusToBool (installed)), "command" : repair},
+		{"type" : "Button", "text" : "Repair discord", "command" : repair},
 		{"type" : "Button", "text" : "Restore default", "state" : engine.toButtonStatus (gestor.checkBackup () and engine.buttonStatusToBool (installed)), "command" : restore},
 		{"type" : "Button", "text" : "Convert images to icons", "command" : lambda: image2ico (window)},
 		{"type" : "Button", "text" : "Help", "command" : window.destroy},
