@@ -135,6 +135,8 @@ def repair ():
 
 		engine.constructCanvas (resultWindow, conts)
 
+	if installed == "disabled":
+		engine.tkinter.messagebox.showwarning ("Warning", "Discord is not disabled, some errors may occur.")
 	engine.warnedAction (action)
 
 def restore ():
