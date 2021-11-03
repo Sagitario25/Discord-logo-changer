@@ -9,7 +9,7 @@ import subprocess
 import shutil
 
 installed = "disabled"
-
+firstWarning = True
 
 
 ###Menus###
@@ -31,8 +31,10 @@ def mainMenu (lastWindow = None):
 	]
 	engine.constructCanvas (window, conts)
 
-	if not installed == "normal":
+	global firstWarning
+	if not installed == "normal" and firstWarning:
 		engine.tkinter.messagebox.showwarning (title = "Discord not installed", message = "Discord is not installed, some options are now disabled")
+		firstWarning = False
 
 	window.mainloop ()
 
