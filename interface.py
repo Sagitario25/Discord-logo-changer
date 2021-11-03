@@ -24,8 +24,8 @@ def mainMenu (lastWindow = None):
 		{"type" : "Button", "text" : "Repair discord", "command" : repair},
 		{"type" : "Button", "text" : "Restore default", "state" : engine.toButtonStatus (gestor.checkBackup () and engine.buttonStatusToBool (installed)), "command" : restore},
 		{"type" : "Button", "text" : "Convert images to icons", "command" : lambda: image2ico (window)},
-		{"type" : "Button", "text" : "Help", "command" : window.destroy},
 		{"type" : "Button", "text" : "Open icon folder", "command" : lambda: os.startfile ("Icons")},
+		{"type" : "Button", "text" : "Help", "command" : window.destroy},
 		{"type" : "Label", "text" : ""},
 		{"type" : "Button", "text" : "Exit", "command" : window.destroy}
 	]
