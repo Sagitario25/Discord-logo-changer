@@ -100,22 +100,3 @@ class prettyTkinter:
 	def __init__(self, labelStyle = {}, buttonStyle = {}):
 		self.labelStyle = labelStyle
 		self.buttonStyle = buttonStyle
-	
-	def add (self, window, content):
-		if content["type"] == "Label":
-			self.addLabel (window, content)
-		elif content["type"] == "Button":
-			self.addButton (window, content)
-
-	def addLabel (self, window, content):
-		self.keys = [i for i in content]
-		if "text" in self.keys:
-			self.label = tkinter.Label (window, text = content["text"])
-		elif "image" in self.keys:
-			self.label = tkinter.Label (window, image = content["image"], border = False)
-		self.label.pack (fill = content["fill"], expand = content["expand"], side = content["side"])
-
-	def addButton (self, window, content):
-		self.keys = [i for i in content]
-		self.button = tkinter.Button (window, text = content["text"], command = content["command"], state = content["state"])
-		self.button.pack (fill = content["fill"], expand = content["expand"], side = content["side"])
