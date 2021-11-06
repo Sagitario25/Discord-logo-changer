@@ -98,3 +98,9 @@ class prettyTkinter:
 	def __init__(self, labelStyle = {}, buttonStyle = {}):
 		self.labelStyle = labelStyle
 		self.buttonStyle = buttonStyle
+	
+	def add (self, window, content):
+		if content["type"] == "Label":
+			self.addLabel (window, content)
+		elif content["type"] == "Button":
+			self.addButton (window, content)
