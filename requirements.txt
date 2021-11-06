@@ -1,0 +1,4 @@
+packaging==21.2
+Pillow==8.4.0
+psutil==5.8.0
+pyinstaller==4.6
