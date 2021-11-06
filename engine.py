@@ -23,22 +23,24 @@ def resetWindow (window):
 
 def constructCanvas (canvas, contents):
 	contents = defaultContents (contents)
+	objects = []
 	for i in contents:
 		keys = [j for j in i]
-		if "prettyKinter" in keys:
-			if type (i["prettyKinter"]) == type (prettyTkinter ()):
-				i["prettyKinter"].add (canvas, i)
+		
 		if i["type"] == "Label":
 			if "text" in keys:
-				tkinter.Label (canvas, text = i["text"]).pack (fill = i["fill"], expand = i["expand"], side = i["side"])
+				objects.append (tkinter.Label (canvas, text = i["text"]))
 			elif "image" in keys:
-				tkinter.Label (canvas, image = i["image"], border = False).pack (fill = i["fill"], expand = i["expand"], side = i["side"])
+				objects.append (tkinter.Label (canvas, image = i["image"], border = False))
+			objects[-1].pack (fill = i["fill"], expand = i["expand"], side = i["side"])
 		elif i["type"] == "Button":
-			tkinter.Button (canvas, text = i["text"], command = i["command"], state = i["state"]).pack (fill = i["fill"], expand = i["expand"], side = i["side"])
+			objects.append (tkinter.Button (canvas, text = i["text"], command = i["command"], state = i["state"]))
+			objects[-1].pack (fill = i["fill"], expand = i["expand"], side = i["side"])
 		elif i["type"] == "Canvas":
 			newCanvas = tkinter.Canvas (canvas)
-			constructCanvas (newCanvas, i["contents"])
+			objects.append (constructCanvas (newCanvas, i["contents"]))
 			newCanvas.pack (fill = tkinter.BOTH, expand = True)
+	return objects
 
 def defaultContents (conts):
 	for i in conts:
