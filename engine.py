@@ -25,7 +25,10 @@ def constructCanvas (canvas, contents):
 	contents = defaultContents (contents)
 	for i in contents:
 		keys = [j for j in i]
-		if   i["type"] == "Label":
+		if "prettyKinter" in keys:
+			if type (i["prettyKinter"]) == type (prettyTkinter ()):
+				i["prettyKinter"].add (canvas, i)
+		if i["type"] == "Label":
 			if "text" in keys:
 				tkinter.Label (canvas, text = i["text"]).pack (fill = i["fill"], expand = i["expand"], side = i["side"])
 			elif "image" in keys:
@@ -90,3 +93,8 @@ def buttonStatusToBool (buttonStatus):
 		return False
 	else:
 		return None
+
+class prettyTkinter:
+	def __init__(self, labelStyle = {}, buttonStyle = {}):
+		self.labelStyle = labelStyle
+		self.buttonStyle = buttonStyle
