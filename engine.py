@@ -100,3 +100,8 @@ class prettyTkinter:
 	def __init__(self, labelStyle = {}, buttonStyle = {}):
 		self.labelStyle = labelStyle
 		self.buttonStyle = buttonStyle
+
+	def sustituteLabelStyle (self, labelStyle):
+		self.labelStyle = labelStyle
+	def sustituteButtonStyle (self, buttonStyle):
+		self.buttonStyle = buttonStyle
