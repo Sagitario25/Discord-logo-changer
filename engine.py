@@ -112,3 +112,8 @@ class prettyTkinter:
 		elif "image" in self.keys:
 			self.label = tkinter.Label (window, image = content["image"], border = False)
 		self.label.pack (fill = content["fill"], expand = content["expand"], side = content["side"])
+
+	def addButton (self, window, content):
+		self.keys = [i for i in content]
+		self.button = tkinter.Button (window, text = content["text"], command = content["command"], state = content["state"])
+		self.button.pack (fill = content["fill"], expand = content["expand"], side = content["side"])
