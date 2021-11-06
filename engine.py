@@ -104,3 +104,11 @@ class prettyTkinter:
 			self.addLabel (window, content)
 		elif content["type"] == "Button":
 			self.addButton (window, content)
+
+	def addLabel (self, window, content):
+		self.keys = [i for i in content]
+		if "text" in self.keys:
+			self.label = tkinter.Label (window, text = content["text"])
+		elif "image" in self.keys:
+			self.label = tkinter.Label (window, image = content["image"], border = False)
+		self.label.pack (fill = content["fill"], expand = content["expand"], side = content["side"])
