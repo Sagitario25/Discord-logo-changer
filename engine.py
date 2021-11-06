@@ -40,6 +40,7 @@ def constructCanvas (canvas, contents):
 			newCanvas = tkinter.Canvas (canvas)
 			objects.append (constructCanvas (newCanvas, i["contents"]))
 			newCanvas.pack (fill = tkinter.BOTH, expand = True)
+	prettyTkinter ().applyStyles (objects)
 	return objects
 
 def defaultContents (conts):
@@ -105,3 +106,12 @@ class prettyTkinter:
 		self.labelStyle = labelStyle
 	def sustituteButtonStyle (self, buttonStyle):
 		self.buttonStyle = buttonStyle
+
+	def applyStyles (self, objects):
+		for i in objects:
+			if type (i) == type ([]):
+				self.applyStyles (i)
+			elif type (i) == type (tkinter.Label ()):
+				pass#Process labels
+			elif type (i) == type (tkinter.Button ()):
+				pass#Process buttons
