@@ -112,6 +112,8 @@ class prettyTkinter:
 			if type (i) == type ([]):
 				self.applyStyles (i)
 			elif type (i) == type (tkinter.Label ()):
-				pass#Process labels
+				i.master.update_idletasks ()
+				self.text = i.cget ("text")
+				self.size = (i.winfo_width (), i.winfo_height ())
 			elif type (i) == type (tkinter.Button ()):
 				pass#Process buttons
