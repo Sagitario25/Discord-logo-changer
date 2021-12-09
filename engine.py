@@ -116,4 +116,6 @@ class prettyTkinter:
 				self.text = i.cget ("text")
 				self.size = (i.winfo_width (), i.winfo_height ())
 			elif type (i) == type (tkinter.Button ()):
-				pass#Process buttons
+				i.master.update_idletasks ()
+				self.text = i.cget ("text")
+				self.size = (i.winfo_width (), i.winfo_height ())
