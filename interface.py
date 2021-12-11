@@ -24,7 +24,7 @@ def mainMenu (lastWindow = None):
 		{"type" : "Button", "text" : "Repair discord", "command" : repair},
 		{"type" : "Button", "text" : "Restore default", "state" : engine.toButtonStatus (gestor.checkBackup () and engine.buttonStatusToBool (installed)), "command" : restore},
 		{"type" : "Button", "text" : "Convert images to icons", "command" : lambda: image2ico (window)},
-		{"type" : "Button", "text" : "Open icon folder", "command" : lambda: os.startfile ("Icons")},
+		{"type" : "Button", "text" : "Open icon folder", "command" : lambda: os.startfile (gestor.iconsPath)},
 		{"type" : "Button", "text" : "Help", "command" : window.destroy},
 		{"type" : "Label", "text" : ""},
 		{"type" : "Button", "text" : "Exit", "command" : window.destroy}
@@ -47,7 +47,7 @@ def chooseIcon (lastWindow):
 	for i in gestor.getNames ():
 		conts.append ({"type" : "Canvas", "contents" : [
 			{"type" : "Button", "text" : i, "side" : engine.tkinter.LEFT, "expand" : True, "command" : functools.partial (changeIcon, i)},
-			{"type" : "Button", "text" : "Preview", "side" : engine.tkinter.LEFT, "expand" : False, "command" : functools.partial (engine.previewImage, os.path.join ("Icons", i + ".ico"))}
+			{"type" : "Button", "text" : "Preview", "side" : engine.tkinter.LEFT, "expand" : False, "command" : functools.partial (engine.previewImage, os.path.join (gestor.iconsPath, i + ".ico"))}
 			]})
 	conts.append ({"type" : "Label", "text" : ""})
 	conts.append ({"type" : "Button", "text" : "Back to main menu", "command" : lambda: mainMenu (window)})
@@ -102,11 +102,11 @@ def selectImages (toAppend = []):
 		("All image format", ".ico")
 	]
 
-	if not os.path.exists ("Cache"):
-			os.mkdir ("Cache")
+	if not os.path.exists (gestor.cachePath):
+			os.mkdir (gestor.cachePath)
 	for i in engine.tkinter.filedialog.askopenfilenames (filetypes = filetypes, title = "Select images"):
 		originalName = os.path.basename (i)
-		pathImage = os.path.join ("Cache", str (len (toAppend)))
+		pathImage = os.path.join (gestor.cachePath, str (len (toAppend)))
 		objectiveName = os.path.splitext (originalName)[0] + ".ico"
 		shutil.copy (i, pathImage)
 		toAppend.append ((originalName, pathImage, objectiveName))
@@ -146,15 +146,15 @@ def restore ():
 def convert (images):
 	undone = []
 	for i in images:
-		path = os.path.join ("Icons", i[2])
+		path = os.path.join (gestor.iconsPath, i[2])
 		if os.path.exists (path):
 			answer = engine.tkinter.messagebox.askyesnocancel ("Warning", f"There is already a icon named {i[2]}, do you want to overwrite it?\nPress cancel to skip.")
 			if answer == True:
 				gestor.callImage2ico (i[1], i[2])
 			elif answer == False:
 				while True:
-					path = engine.tkinter.filedialog.asksaveasfilename (filetypes = [("Icon image", ".ico")], initialdir = os.path.join (os.getcwd (), "Icons"), initialfile = i[0])
-					abspath = os.path.abspath ("Icons")
+					path = engine.tkinter.filedialog.asksaveasfilename (filetypes = [("Icon image", ".ico")], initialdir = os.path.join (os.getcwd (), gestor.iconsPath), initialfile = i[0])
+					abspath = os.path.abspath (gestor.iconsPath)
 					if os.path.normpath (path [:len (abspath)]) == os.path.normpath (abspath) and os.path.splitext (path)[1] == ".ico":
 						gestor.callImage2ico (i[1], os.path.splitext (os.path.basename (path))[0] + ".ico")
 						break

@@ -8,26 +8,21 @@ import shutil
 import sys
 
 installed = gestor.discordInstalled ()
-try:
-	gestor.getPaths ()
-	installed = installed and True
-except:
-	installed = False
 
 if installed:
 	paths = gestor.getPaths ()
-	if not os.path.exists ("Backup"):
-		os.mkdir ("Backup")
+	if not os.path.exists (gestor.backupPath):
+		os.mkdir (gestor.backupPath)
 
-	if not os.path.exists ("Icons"):
-		os.mkdir ("Icons")
+	if not os.path.exists (gestor.iconsPath):
+		os.mkdir (gestor.iconsPath)
 
-	if not os.path.exists (os.path.join ("backup", "app.ico")):
-		shutil.copy (paths ["ico1"], os.path.join ("backup", "app.ico"))
+	if not os.path.exists (os.path.join (gestor.backupPath, "app.ico")):
+		shutil.copy (paths ["ico1"], os.path.join (gestor.backupPath, "app.ico"))
 		print ("Backed up discord icon")
 
-	if not os.path.exists (os.path.join ("backup", "Discord.exe")):
-		shutil.copy (paths ["exe"], os.path.join ("backup", "Discord.exe"))
+	if not os.path.exists (os.path.join (gestor.backupPath, "Discord.exe")):
+		shutil.copy (paths ["exe"], os.path.join (gestor.backupPath, "Discord.exe"))
 		print ("Backed up discord executable")
 
 def commandline ():

@@ -8,6 +8,11 @@ import packaging.version
 import PIL.Image
 import psutil
 
+backupPath = os.path.join ("assets", "Backup")
+cachePath = os.path.join ("assets", "Cache")
+iconsPath = os.path.join ("assets", "Icons")
+fontsPath = os.path.join ("assets", "Fonts")
+
 def changeEXEicon (originalPath, resultPath, iconPath):
 	taskkill ()
 	#os.system (f"tool.exe -open \"{originalPath}\" -save \"{resultPath}\" -action addskip -res \"{iconPath}\" -mask ICONGROUP,MAINICON,")
@@ -26,9 +31,9 @@ def changeDiscordIcon (iconName, bypass = False, tries = 1):
 
 	counter = 0
 
-	if not os.path.exists ("Cache"):
-		os.mkdir ("Cache")
-	paths["cached"] = os.path.join ("Cache", "Discord.exe")
+	if not os.path.exists (cachePath):
+		os.mkdir (cachePath)
+	paths["cached"] = os.path.join (cachePath, "Discord.exe")
 	shutil.copyfile (paths["exe"], paths["cached"])
 
 	while not filecmp.cmp (paths["exe"], paths["cached"]):
@@ -40,8 +45,8 @@ def changeDiscordIcon (iconName, bypass = False, tries = 1):
 
 def getNames ():
 	names = []
-	for i in os.listdir ("Icons"):
-		name = os.path.join ("Icons", i)
+	for i in os.listdir (iconsPath):
+		name = os.path.join (iconsPath, i)
 		if os.path.isfile (name) and os.path.splitext (i)[1] == ".ico":
 			names.append (os.path.splitext (i)[0])
 	return names
@@ -55,20 +60,20 @@ def callRestore ():
 	os.remove (paths["ico2"])
 	os.remove (paths["exe"])
 
-	shutil.copy (os.path.join ("Backup", "app.ico"), paths["ico1"])
-	shutil.copy (os.path.join ("Backup", "app.ico"), paths["ico2"])
-	shutil.copy (os.path.join ("Backup", "Discord.exe"), paths["exe"])
+	shutil.copy (os.path.join (backupPath, "app.ico"), paths["ico1"])
+	shutil.copy (os.path.join (backupPath, "app.ico"), paths["ico2"])
+	shutil.copy (os.path.join (backupPath, "Discord.exe"), paths["exe"])
 
 
 def callChange (name):
-	changeDiscordIcon (os.path.join ("Icons", name))
+	changeDiscordIcon (os.path.join (iconsPath, name))
 	print (f"Logo changed to {name}")
 	print ("To apply the changes, please restart your computer")
 
 def callRepair ():
 	paths = getPaths (False)
 
-	return repair ([os.path.join ("Backup", "app.ico"), os.path.join ("Backup", "app.ico"), os.path.join ("Backup", "Discord.exe")],
+	return repair ([os.path.join (backupPath, "app.ico"), os.path.join (backupPath, "app.ico"), os.path.join (backupPath, "Discord.exe")],
 	[paths["ico1"], paths["ico2"], paths["exe"]],
 	["Icon 1", "Icon 2", "Discord's executable"])
 
@@ -83,7 +88,7 @@ def callImage2ico (paths, names = []):
 		except:
 			name, _ = os.path.splitext (os.path.basename (paths [i]))
 			name += ".ico"
-		image2ico (paths[i], os.path.join ("Icons", name))
+		image2ico (paths[i], os.path.join (iconsPath, name))
 
 def getPaths (checkFiles = True):
 	paths = {}
@@ -171,14 +176,18 @@ def discordInstalled ():
 	for i in os.listdir (discordPath):
 		name = os.path.join (discordPath, i)
 		if i[:3] == "app" and os.path.isdir (name):
-			return True
+			try:
+				getPaths ()
+				return True
+			except:
+				return False
 	return False
 
 def checkBackup ():
-	if not os.path.exists ("Backup"):
+	if not os.path.exists (backupPath):
 		return False
 
-	return os.path.exists (os.path.join ("Backup", "app.ico")) and os.path.exists (os.path.join ("Backup", "Discord.exe"))
+	return os.path.exists (os.path.join (backupPath, "app.ico")) and os.path.exists (os.path.join (backupPath, "Discord.exe"))
 
 def taskkill (name = "discord.exe"):
 	while name in [i.name () for i in psutil.process_iter ()]:
