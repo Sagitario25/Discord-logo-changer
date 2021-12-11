@@ -17,6 +17,9 @@ if installed:
 	if not os.path.exists (gestor.iconsPath):
 		os.mkdir (gestor.iconsPath)
 
+	if not os.path.exists (gestor.fontsPath):
+		os.mkdir (gestor.fontsPath)
+
 	if not os.path.exists (os.path.join (gestor.backupPath, "app.ico")):
 		shutil.copy (paths ["ico1"], os.path.join (gestor.backupPath, "app.ico"))
 		print ("Backed up discord icon")
