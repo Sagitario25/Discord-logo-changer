@@ -4,6 +4,8 @@ import tkinter.messagebox
 import tkinter.filedialog
 import PIL.Image
 import PIL.ImageTk
+import PIL.ImageDraw
+import PIL.ImageFont
 
 def createWindow ():
 	window = tkinter.Tk ()
@@ -106,6 +108,14 @@ class prettyTkinter:
 		self.labelStyle = labelStyle
 	def sustituteButtonStyle (self, buttonStyle):
 		self.buttonStyle = buttonStyle
+
+	def createImage (self, canvas, text, textColor, imgSize, color, fontName, fontSize):
+		self.image = PIL.Image.new (mode = "RGB", size = imgSize, color = color)
+		self.draw = PIL.ImageDraw.Draw (self.image)
+		self.font = PIL.ImageFont.truetype (font = fontName, size = fontSize)
+		self.textsize = self.draw.textsize (text, self.font)
+		self.draw.text (((imgSize[0] - self.textsize[0]) / 2, (imgSize[1] - self.textsize[1]) / 2), text, textColor, self.font)
+		return PIL.ImageTk.PhotoImage (self.image, master = canvas)
 
 	def applyStyles (self, objects):
 		for i in objects:
