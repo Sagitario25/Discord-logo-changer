@@ -42,7 +42,7 @@ def constructCanvas (canvas, contents):
 			newCanvas = tkinter.Canvas (canvas)
 			objects.append (constructCanvas (newCanvas, i["contents"]))
 			newCanvas.pack (fill = tkinter.BOTH, expand = True)
-	prettyTkinter ().applyStyles (objects)
+
 	return objects
 
 def defaultContents (conts):
@@ -117,15 +117,20 @@ class prettyTkinter:
 		self.draw.text (((imgSize[0] - self.textsize[0]) / 2, (imgSize[1] - self.textsize[1]) / 2), text, textColor, self.font)
 		return PIL.ImageTk.PhotoImage (self.image, master = canvas)
 
-	def applyStyles (self, objects):
+	def applyStyles (self, canvas, objects):
+		self.contents = []
 		for i in objects:
 			if type (i) == type ([]):
-				self.applyStyles (i)
+				self.applyStyles (canvas, i)
 			elif type (i) == type (tkinter.Label ()):
 				i.master.update_idletasks ()
 				self.text = i.cget ("text")
 				self.size = (i.winfo_width (), i.winfo_height ())
+
+				self.img = self.createImage (canvas, self.text, self.labelStyle["textColor"], self.size, self.labelStyle["backgroundColor"], self.labelStyle["font"], self.labelStyle["fontSize"])
+				self.contents.append ({"type" : "Label", "image" : self.img})
 			elif type (i) == type (tkinter.Button ()):
 				i.master.update_idletasks ()
 				self.text = i.cget ("text")
 				self.size = (i.winfo_width (), i.winfo_height ())
+		constructCanvas (canvas, self.contents)
