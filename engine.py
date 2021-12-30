@@ -31,12 +31,12 @@ def constructCanvas (canvas, contents):
 		
 		if i["type"] == "Label":
 			if "text" in keys:
-				objects.append (tkinter.Label (canvas, text = i["text"]))
+				objects.append (DefaultWidgets.Label.text (canvas, text = i["text"]))
 			elif "image" in keys:
-				objects.append (tkinter.Label (canvas, image = i["image"], border = False))
+				objects.append (DefaultWidgets.Label.image (canvas, image = i["image"]))
 			objects[-1].pack (fill = i["fill"], expand = i["expand"], side = i["side"])
 		elif i["type"] == "Button":
-			objects.append (tkinter.Button (canvas, text = i["text"], command = i["command"], state = i["state"]))
+			objects.append (DefaultWidgets.Button.text (canvas, text = i["text"], command = i["command"], state = i["state"]))
 			objects[-1].pack (fill = i["fill"], expand = i["expand"], side = i["side"])
 		elif i["type"] == "Canvas":
 			newCanvas = tkinter.Canvas (canvas)
@@ -98,6 +98,18 @@ def buttonStatusToBool (buttonStatus):
 		return False
 	else:
 		return None
+
+class DefaultWidgets:
+	class Label:
+		def text (canvas, text):
+			return tkinter.Label (canvas, text = text)
+		def image (canvas, image):
+			return tkinter.Label (canvas, image = image, border = False)
+	class Button:
+		def text (canvas, text, command, state):
+			return tkinter.Button (canvas, text = text, command = command, state = state)
+		def image ():
+			pass
 
 class prettyTkinter:
 	def __init__(self, labelStyle = {}, buttonStyle = {}):
