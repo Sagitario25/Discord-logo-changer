@@ -130,7 +130,6 @@ class prettyTkinter:
 		return PIL.ImageTk.PhotoImage (self.image, master = canvas)
 
 	def applyStyles (self, canvas, objects):
-		self.contents = []
 		for i in objects:
 			if type (i) == type ([]):
 				self.applyStyles (canvas, i)
@@ -139,10 +138,12 @@ class prettyTkinter:
 				self.text = i.cget ("text")
 				self.size = (i.winfo_width (), i.winfo_height ())
 
-				self.img = self.createImage (canvas, self.text, self.labelStyle["textColor"], self.size, self.labelStyle["backgroundColor"], self.labelStyle["font"], self.labelStyle["fontSize"])
-				self.contents.append ({"type" : "Label", "image" : self.img})
+				i.prettyTkinterImg = self.createImage (canvas, self.text, self.labelStyle["textColor"], self.size, self.labelStyle["backgroundColor"], self.labelStyle["font"], self.labelStyle["fontSize"])
+
+				self.newLabel = DefaultWidgets.Label.image (canvas = i.master, image = i.prettyTkinterImg)
+				for j in i.keys ():
+					i[j] = self.newLabel[j]
 			elif type (i) == type (tkinter.Button ()):
 				i.master.update_idletasks ()
 				self.text = i.cget ("text")
 				self.size = (i.winfo_width (), i.winfo_height ())
-		constructCanvas (canvas, self.contents)
